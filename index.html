@@ -27,7 +27,7 @@
     a{color:var(--fg);text-decoration:none}
     a:hover{opacity:.95}
 
-    /* 容器加宽 */
+    /* 容器更宽一些 */
     .container{max-width:1180px;margin:0 auto;padding:0 24px}
 
     /* 顶部导航 */
@@ -44,6 +44,7 @@
     .hero h1{
       font-size:clamp(40px,7vw,76px);margin:0 0 12px 0;letter-spacing:.6px;
       color:#ffffff;text-shadow:0 3px 16px rgba(20,40,80,.55), 0 0 1px #fff;
+      font-weight:900; /* 名字加黑 */
     }
     .hero p{
       color:#ffffff;font-size:1.2rem;margin:12px auto 20px;max-width:880px;
@@ -65,6 +66,7 @@
         box-shadow:0 10px 24px rgba(0,0,0,.12),inset 0 0 0 9999px rgba(0,0,0,.03)}
       .btn.ghost:hover{background:rgba(0,0,0,.14)}
     }
+
     .anim-gradient{position:absolute;inset:-20%;background:
       radial-gradient(560px 360px at 22% 28%,rgba(93,224,230,.38),transparent 60%),
       radial-gradient(560px 360px at 78% 74%,rgba(161,113,255,.34),transparent 60%),
@@ -87,18 +89,20 @@
     .about-pic{width:180px;border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.35);border:1px solid var(--border)}
     .about-text{flex:1 1 420px;min-width:300px;text-align:left}
 
-    /* 媒体卡片：左图右文 */
+    /* 媒体卡片：左图右文，图片固定更小 */
     .media{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
     .media-img{
-      flex:0 0 420px;          /* 图片固定宽度，避免过大 */
+      flex:0 0 360px;         /* 关键：统一缩小到 360px 宽 */
+      width:360px;
       max-width:100%;
       border-radius:12px;
       border:1px solid var(--border);
       box-shadow:0 8px 20px rgba(0,0,0,.4);
     }
-    .media-body{flex:1 1 480px;min-width:300px}
+    .media-body{flex:1 1 520px;min-width:300px}
+
     .row{display:flex;gap:16px;flex-wrap:wrap}
-    .left{flex:0 0 90px}
+    .left{flex:0 0 110px}
     .right{flex:1 1 auto}
 
     /* Reveal 动画 */
@@ -182,7 +186,7 @@
     </div>
   </section>
 
-  <!-- Publications：左图右文 -->
+  <!-- Publications：左图右文 + 学术化描述 -->
   <section id="publications">
     <div class="container reveal">
       <h2>Publications</h2>
@@ -191,8 +195,12 @@
           <img src="/assets/img/2.png" alt="HumanGenesis Project" class="media-img">
           <div class="media-body">
             <p>
-              <strong>HumanGenesis</strong>: Agent-Based Geometric and Generative Modeling for Synthetic Human Dynamics.
-              (Li, W., <em>Zhang, Z.</em>, Lin, L., &amp; Wang, G., 2025).
+              <strong>HumanGenesis</strong> — Agent-Based Geometric and Generative Modeling for Synthetic Human Dynamics.
+              We develop a high-fidelity 3D human synthesis pipeline that combines geometric modeling with generative refinement,
+              enabling temporally consistent reconstruction and dynamic sequence generation from monocular videos.
+              A <em>Reflector</em> module with human-in-the-loop feedback corrects reconstruction errors, substantially improving
+              detail and perceptual fidelity in rendered results.
+              (Li, W., <em>Zhang, Z.</em>, Lin, L., &amp; Wang, G., 2025; submitted to AAAI 2026)
             </p>
             <div class="btns" style="justify-content:flex-start">
               <a class="btn ghost" href="https://liwq229.github.io/humangenesis" target="_blank" rel="noreferrer">Project Page</a>
@@ -204,29 +212,31 @@
     </div>
   </section>
 
-  <!-- Practice：左图右文 -->
+  <!-- Practice：左图右文 + 时间/合作方 -->
   <section id="practice">
     <div class="container reveal">
       <h2>Practice / Research</h2>
-      <div class="block">
-        <div class="media">
-          <img src="/assets/img/3.png" alt="ACD Project" class="media-img">
-          <div class="media-body">
-            <div class="row">
-              <div class="left"><strong>2025</strong></div>
-              <div class="right">
-                <strong>Attention-Conditional Diffusion for Video</strong><br/>
-                Injected conditional control via supervised attention for stronger semantic &amp; spatial alignment.
-                Designed a sparse 3D-aware layout with ControlNet and automated annotation to reduce artifacts and improve interpretability.
-              </div>
+    <div class="block">
+      <div class="media">
+        <img src="/assets/img/3.png" alt="Attention-Conditional Diffusion (ACD)" class="media-img">
+        <div class="media-body">
+          <div class="row">
+            <div class="left"><strong>2024.12 – 2025.09</strong></div>
+            <div class="right">
+              <strong>Attention-Conditional Diffusion for Video</strong><br/>
+              Research intern with <em>Prof. Guangrun Wang</em> (Sun Yat-sen University).
+              We inject conditional control via supervised attention to achieve stronger semantic and spatial alignment in video diffusion,
+              and design a sparse 3D-aware layout with ControlNet plus automated annotation for interpretable control, reducing artifacts
+              and improving temporal consistency. (Ready to submit)
             </div>
           </div>
         </div>
       </div>
     </div>
+    </div>
   </section>
 
-  <!-- Internships：左图右文 -->
+  <!-- Internships：左图右文 + 学术化描述 -->
   <section id="internships">
     <div class="container reveal">
       <h2>Internships</h2>
@@ -235,10 +245,12 @@
           <img src="/assets/img/4.png" alt="Lenovo AI Lab Internship" class="media-img">
           <div class="media-body">
             <div class="row">
-              <div class="left"><strong>2024.06 – 2024.08</strong></div>
+              <div class="left"><strong>2023.10 – 2024.01</strong></div>
               <div class="right">
                 <strong>Research Intern — Lenovo AI Lab</strong><br/>
-                Conducted comparative analysis of YOLO architectures under PyTorch; optimized model parameters and improved detection efficiency.
+                Object detection model development and optimization in <em>PyTorch</em>.
+                Conducted systematic comparisons of model configurations, analyzing accuracy–latency–resource trade-offs;
+                tuned training and deployment pipelines to improve runtime efficiency while preserving detection quality across scenarios.
               </div>
             </div>
           </div>
@@ -247,17 +259,18 @@
     </div>
   </section>
 
-  <!-- Projects (LLM / NLP) -->
+  <!-- Projects (LLM / NLP) — 简洁学术化补充 -->
   <section id="projects">
     <div class="container reveal">
       <h2>Projects (LLM / NLP)</h2>
 
       <div class="block">
         <div class="row">
-          <div class="left"><strong>2025.02 – 2025.04</strong></div>
+          <div class="left"><strong>2025.03 – 2025.07</strong></div>
           <div class="right">
             <strong>Tiny Reasoning Agent (Distillation)</strong><br/>
-            Distillation-enhanced tiny LMs with chain-of-thought and tool-use under ReAct; improved reasoning quality and sample efficiency.
+            Built an efficient language-agent system by distilling chain-of-thought and tool-use behaviors into tiny LMs under the ReAct paradigm,
+            improving sample efficiency and downstream task reliability.
           </div>
         </div>
       </div>
@@ -267,7 +280,8 @@
           <div class="left"><strong>2024.11 – 2025.01</strong></div>
           <div class="right">
             <strong>Reduce Perplexity for LLaMA-3.2-1B</strong><br/>
-            Continued pretraining on Korean corpus; LoRA fine-tuning and dataset curation; prompting ablations.
+            Continued pretraining on a large-scale Korean corpus and applied LoRA for resource-efficient finetuning;
+            curated domain-specific data and performed prompting ablations to enhance linguistic robustness.
           </div>
         </div>
       </div>
@@ -277,7 +291,8 @@
           <div class="left"><strong>2024.09 – 2024.11</strong></div>
           <div class="right">
             <strong>ReAct Agents &amp; Prompting Strategies</strong><br/>
-            Few-Shot / Self-Ask / Self-Consistency / Self-Refine; comprehensive ablations on QA &amp; interactive tasks.
+            Comparative study of Few-Shot, Self-Ask, Self-Consistency, and Self-Refine within ReAct on QA and interactive tasks,
+            showing that moderate structural guidance improves reasoning stability while excessive stacking degrades performance.
           </div>
         </div>
       </div>
@@ -286,8 +301,10 @@
         <div class="row">
           <div class="left"><strong>2024.07 – 2024.08</strong></div>
           <div class="right">
-            <strong>CoT vs ToT Experiments</strong><br/>
-            Systematic comparisons on commonsense QA &amp; textual reasoning benchmarks; consistent gains over direct-answer baselines.
+            <strong>CoT vs. ToT Reasoning</strong><br/>
+            Evaluated chain-of-thought and tree-of-thought prompting on NLP benchmarks (e.g., MRPC, CSQA);
+            achieved substantial gains over direct-answer baselines (MRPC ≈92%, CSQA ≈74.5%), indicating ToT’s general advantage
+            while CoT remains competitive in small-data regimes.
           </div>
         </div>
       </div>
