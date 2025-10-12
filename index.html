@@ -57,6 +57,15 @@
       background:rgba(255,255,255,.16); color:#fff; border:1px solid rgba(255,255,255,.35);
       box-shadow:0 10px 28px rgba(0,0,0,.35)
     }
+    /* make ghost buttons readable in light mode */
+    @media (prefers-color-scheme: light){
+      .btn.ghost{
+        background:rgba(0,0,0,.08);
+        color:#0b1726;                 /* 深色文字 */
+        border:1px solid rgba(0,0,0,.25);
+      }
+    }
+
     .anim-gradient{position:absolute;inset:-20%;background:
       radial-gradient(560px 360px at 22% 28%,rgba(93,224,230,.38),transparent 60%),
       radial-gradient(560px 360px at 78% 74%,rgba(161,113,255,.34),transparent 60%),
@@ -153,7 +162,7 @@
       <h2>Publications</h2>
       <div class="block">
         <strong>HumanGenesis</strong>: Agent-Based Geometric and Generative Modeling for Synthetic Human Dynamics.
-        (Li, W., <em>Zhang, Z.</em>, Lin, L., &amp; Wang, G., 2025). <em>Submitted to AAAI 2026</em>.
+        (Li, W., <em>Zhang, Z.</em>, Lin, L., &amp; Wang, G., 2025).
         <div style="margin-top:10px">
           <a class="btn ghost" href="https://liwq229.github.io/humangenesis" target="_blank" rel="noreferrer">Project Page</a>
           <a class="btn ghost" href="https://arxiv.org/abs/2508.09858" target="_blank" rel="noreferrer">arXiv</a>
