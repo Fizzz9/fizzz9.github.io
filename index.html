@@ -7,66 +7,61 @@
   <meta name="description" content="Zehao Zhang — CS undergraduate at Yonsei University. Research interests in Computer Vision, LLMs, Generative AI, Reinforcement Learning."/>
   <style>
     :root{
-      --bg:#0b0f15; --fg:#e9eef5; --muted:#a3b0c2; --accent:#5DE0E6;
-      --card:#101828; --border:rgba(255,255,255,.09);
+      --bg:#0b0f15; --fg:#eef6ff; --muted:#c7d5e7; --accent:#5DE0E6;
+      --card:#0f1726; --border:rgba(255,255,255,.12);
     }
     @media (prefers-color-scheme: light){
-      :root{ --bg:#f7f9fc; --fg:#0d1b2a; --muted:#5b6b7c; --card:#ffffff; --border:rgba(0,0,0,.08); }
+      :root{ --bg:#f7faff; --fg:#0c1626; --muted:#4a5a6b; --card:#ffffff; --border:rgba(0,0,0,.12); }
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.65;scroll-behavior:smooth}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);
+      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.68;scroll-behavior:smooth}
     a{color:var(--fg);text-decoration:none}
-    a:hover{opacity:.9}
-    .container{max-width:1080px;margin:0 auto;padding:0 20px}
+    a:hover{opacity:.92}
+    .container{max-width:1000px;margin:0 auto;padding:0 20px}
 
     /* Nav */
-    .nav{position:sticky;top:0;z-index:50;background:rgba(10,14,20,.55);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .nav{position:sticky;top:0;z-index:50;background:rgba(10,14,20,.55);
+      backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
     .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
     .logo{font-weight:800;letter-spacing:.4px}
     .nav a{color:var(--muted);margin-left:18px;font-size:.98rem}
     .nav a:hover,.nav a.active{color:var(--fg)}
 
-    /* Hero */
-    .hero{position:relative;min-height:70vh;display:grid;place-items:center;overflow:hidden}
-    .hero .inner{text-align:center;padding:48px 0;position:relative;z-index:2}
-    .hero h1{font-size:clamp(34px,6vw,64px);margin:0 0 10px 0}
-    .hero p{color:var(--muted);font-size:1.08rem;margin:8px 0 18px}
-    .btns{display:flex;gap:12px;justify-content:center;margin-top:6px;flex-wrap:wrap}
-    .btn{padding:10px 16px;border-radius:999px;background:var(--accent);color:#001018;font-weight:700;box-shadow:0 6px 24px rgba(93,224,230,.25)}
+    /* Hero（更亮） */
+    .hero{position:relative;min-height:58vh;display:grid;place-items:center;overflow:hidden}
+    .hero .inner{text-align:center;padding:52px 0;position:relative;z-index:2}
+    .hero h1{font-size:clamp(36px,6vw,66px);margin:0 0 12px 0;letter-spacing:.5px}
+    .hero p{color:#e5f1ff;font-size:1.12rem;margin:10px auto 18px;max-width:860px}
+    .btns{display:flex;gap:12px;justify-content:center;margin-top:8px;flex-wrap:wrap}
+    .btn{padding:10px 16px;border-radius:999px;background:var(--accent);color:#001018;font-weight:700;
+      box-shadow:0 6px 24px rgba(93,224,230,.28)}
     .btn.ghost{background:transparent;border:1px solid var(--border);color:var(--fg)}
+    .link-pill{padding:9px 14px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.06)}
     .anim-gradient{position:absolute;inset:-20%;background:
-      radial-gradient(600px 380px at 20% 30%,rgba(93,224,230,.28),transparent 60%),
-      radial-gradient(600px 380px at 80% 70%,rgba(161,113,255,.24),transparent 60%),
-      linear-gradient(120deg,#0b0f18,#090d14);
-      filter:blur(22px);animation:float 16s ease-in-out infinite alternate;z-index:0}
+      radial-gradient(560px 360px at 22% 28%,rgba(93,224,230,.32),transparent 60%),
+      radial-gradient(560px 360px at 78% 74%,rgba(161,113,255,.28),transparent 60%),
+      linear-gradient(120deg,#0b0f18,#09111c);
+      filter:blur(20px);animation:float 16s ease-in-out infinite alternate;z-index:0}
     @keyframes float{to{transform:translateY(-20px)}}
 
     /* Sections */
-    section{padding:70px 0}
+    section{padding:64px 0}
     h2{font-size:clamp(24px,3.2vw,36px);margin:0 0 16px 0}
     .muted{color:var(--muted)}
-    .chips{display:flex;gap:10px;flex-wrap:wrap}
-    .chip{padding:7px 12px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--fg);font-size:.92rem}
 
-    /* Grid cards */
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .25s ease, box-shadow .25s ease}
-    .card:hover{transform:translateY(-4px);box-shadow:0 16px 35px rgba(0,0,0,.35)}
-    .pad{padding:16px}
-    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-    .tag{font-size:.8rem;color:var(--muted);background:rgba(255,255,255,.06);padding:4px 8px;border-radius:999px;border:1px solid var(--border)}
-
-    /* Lists */
+    /* Blocks */
+    .block{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 18px;margin:10px 0}
     ul.clean{list-style:disc;margin-left:20px}
     .timeline{border-left:2px solid var(--border);padding-left:16px}
-    .tl{margin:10px 0}
+    .tl{margin:8px 0}
 
     /* Reveal animation */
     .reveal{opacity:0;transform:translateY(10px);transition:all .6s ease}
     .reveal.visible{opacity:1;transform:none}
 
     /* Footer */
-    footer{padding:28px 0;border-top:1px solid var(--border);text-align:center;color:var(--muted)}
+    footer{padding:26px 0;border-top:1px solid var(--border);text-align:center;color:var(--muted)}
   </style>
 </head>
 <body>
@@ -76,10 +71,10 @@
       <a class="logo" href="#top">Zehao Zhang</a>
       <nav>
         <a href="#about">About</a>
-        <a href="#interests">Interests</a>
         <a href="#education">Education</a>
-        <a href="#projects">Projects</a>
         <a href="#publications">Publications</a>
+        <a href="#practice">Practice</a>
+        <a href="#internships">Internships</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
@@ -89,42 +84,28 @@
   <section id="top" class="hero">
     <div class="inner reveal">
       <h1>Zehao Zhang</h1>
-      <p>CS undergraduate @ Yonsei University. Interests in Computer Vision, Large Language Models, Generative AI, and Reinforcement Learning.</p>
+      <p>CS undergraduate @ Yonsei University. Interests in <strong>Computer Vision</strong>, 
+        <strong>Large Language Models</strong>, <strong>Generative AI</strong>, and 
+        <strong>Reinforcement Learning</strong>.</p>
+
+      <!-- 你的邮箱 / GitHub / CV 链接（按钮样式） -->
       <div class="btns">
-        <a class="btn" href="#projects">See Projects</a>
-        <a class="btn ghost" href="#about">About</a>
+        <a class="btn" href="mailto:taekho@yonsei.ac.kr">Email</a>
+        <a class="btn ghost" href="https://github.com/Fizzz9" target="_blank" rel="noreferrer">GitHub</a>
+        <!-- 把 cv.pdf 上传到仓库根目录或 assets/cv.pdf，再改成对应路径即可 -->
+        <a class="btn ghost" href="/cv.pdf" target="_blank" rel="noreferrer">CV (PDF)</a>
       </div>
     </div>
     <div class="anim-gradient"></div>
   </section>
 
-  <!-- About -->
+  <!-- About（简短） -->
   <section id="about">
     <div class="container reveal">
       <h2>About</h2>
-      <p>
-        I am an undergraduate in <em>Computer Science</em> at <strong>Yonsei University</strong>.
-        My research focuses on building adaptive and autonomous AI systems by combining
-        vision, large language models, and reinforcement learning.
-      </p>
-      <!-- 若后续要放头像，取消下面注释并替换路径：
-      <img src="assets/img/profile.jpg" alt="Zehao Zhang" width="220" />
-      -->
-    </div>
-  </section>
-
-  <!-- Interests -->
-  <section id="interests">
-    <div class="container reveal">
-      <h2>Research Interests</h2>
-      <div class="chips">
-        <span class="chip">Computer Vision</span>
-        <span class="chip">Large Language Models</span>
-        <span class="chip">Generative AI</span>
-        <span class="chip">Reinforcement Learning</span>
-        <span class="chip">Imitation Learning</span>
-        <span class="chip">Video Diffusion</span>
-        <span class="chip">3D Human Modeling</span>
+      <div class="block">
+        I build intelligent systems that perceive, reason, and act. Recently I’ve been exploring
+        imitation learning, offline RL, and vision methods that improve agent capabilities.
       </div>
     </div>
   </section>
@@ -143,70 +124,63 @@
     </div>
   </section>
 
-  <!-- Projects -->
-  <section id="projects">
+  <!-- Publications（只放 HumanGenesis） -->
+  <section id="publications">
     <div class="container reveal">
-      <h2>Projects</h2>
-      <div class="grid">
-        <article class="card">
-          <!-- 后续要加图：在这行上面插入 <img src="assets/img/your_image.jpg" alt="..." /> -->
-          <div class="pad">
-            <h3>HumanGenesis (Research Intern, SYSU)</h3>
-            <p class="muted">Agent-based geometric + generative modeling for synthetic human dynamics; consistent 3D reconstruction & dynamic sequence generation from monocular video. Introduced a human-in-the-loop “Reflector” module to improve fidelity.</p>
-            <div class="tags"><span class="tag">3D Human</span><span class="tag">Generative</span><span class="tag">Vision</span></div>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="pad">
-            <h3>Attention-Conditional Diffusion</h3>
-            <p class="muted">Inject conditional control via supervised attention for stronger semantic & spatial alignment in video diffusion models; sparse 3D-aware layout with ControlNet, reducing artifacts and improving interpretability.</p>
-            <div class="tags"><span class="tag">Diffusion</span><span class="tag">Video</span><span class="tag">ControlNet</span></div>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="pad">
-            <h3>Tiny Reasoning Agent (Distillation)</h3>
-            <p class="muted">Efficient language agent with knowledge distillation; integrates CoT reasoning and tool-use under ReAct for better sample efficiency and reasoning quality.</p>
-            <div class="tags"><span class="tag">LLM Agent</span><span class="tag">Distillation</span><span class="tag">ReAct</span></div>
-          </div>
-        </article>
-
-        <!-- Training/Study projects (可按需删改或补充) -->
-        <article class="card">
-          <div class="pad">
-            <h3>Model-based RL (MPC with CEM)</h3>
-            <p class="muted">HalfCheetah comparisons; CEM outperforms random shooting in trajectory optimization and stability.</p>
-            <div class="tags"><span class="tag">RL</span><span class="tag">MPC</span></div>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="pad">
-            <h3>Reduce Perplexity for LLaMA-3.2-1B</h3>
-            <p class="muted">Continued pretraining on Korean corpus; LoRA fine-tuning and dataset curation; ablations on prompting strategies.</p>
-            <div class="tags"><span class="tag">LLM</span><span class="tag">LoRA</span></div>
-          </div>
-        </article>
+      <h2>Publications</h2>
+      <div class="block">
+        <strong>HumanGenesis</strong>: Agent-Based Geometric and Generative Modeling for Synthetic Human Dynamics. 
+        (Li, W., <em>Zhang, Z.</em>, Lin, L., &amp; Wang, G., 2025). <em>Submitted to AAAI 2026</em>.
+        <div style="margin-top:8px">
+          <a class="link-pill" href="https://liwq229.github.io/humangenesis" target="_blank" rel="noreferrer">Project Page</a>
+          <a class="link-pill" href="https://arxiv.org/abs/2508.09858" target="_blank" rel="noreferrer">arXiv</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Publications -->
-  <section id="publications">
+  <!-- Practice Experience（纵向逐条） -->
+  <section id="practice">
     <div class="container reveal">
-      <h2>Publications</h2>
-      <ul class="clean">
-        <li><strong>HumanGenesis</strong>: Agent-Based Geometric and Generative Modeling for Synthetic Human Dynamics.
-          (Li, W., <em>Zhang, Z.</em>, Lin, L., & Wang, G., 2025). <em>Submitted to AAAI 2026</em>.
-          <!-- 若有项目页或论文链接可放这里： -->
-          <a href="https://liwq229.github.io/humangenesis" target="_blank" rel="noreferrer">Project page</a>.
-        </li>
-        <li><strong>Direct Conditional Control for Video Diffusion Models</strong>.
-          (Li, W., <em>Zhang, Z.</em>, Wang, G., 2025). <em>Ready to submit</em>.
-        </li>
-      </ul>
+      <h2>Practice Experience</h2>
+
+      <div class="block">
+        <strong>Attention-Conditional Diffusion for Video</strong><br/>
+        Injected conditional control via supervised attention for stronger semantic &amp; spatial alignment; 
+        designed a sparse 3D-aware layout with ControlNet and automated annotation to reduce artifacts.
+      </div>
+
+      <div class="block">
+        <strong>Tiny Reasoning Agent (Distillation)</strong><br/>
+        Distillation-enhanced tiny LMs with chain-of-thought and tool-use under ReAct; improves reasoning quality and efficiency.
+      </div>
+
+      <div class="block">
+        <strong>Model-based RL (MPC with CEM)</strong><br/>
+        HalfCheetah experiments show CEM outperforms random shooting in trajectory optimization and stability.
+      </div>
+
+      <div class="block">
+        <strong>Reduce Perplexity for LLaMA-3.2-1B</strong><br/>
+        Continued pretraining on Korean corpus; LoRA fine-tuning and dataset curation; prompting ablations.
+      </div>
+
+      <div class="block">
+        <strong>ReAct Agents & Prompting Strategies</strong><br/>
+        Few-Shot / Self-Ask / Self-Consistency / Self-Refine; ablations on QA and interactive tasks.
+      </div>
+    </div>
+  </section>
+
+  <!-- Internships（最后） -->
+  <section id="internships">
+    <div class="container reveal">
+      <h2>Internships</h2>
+      <div class="block">
+        <strong>Research Intern — Sun Yat-sen University (SYSU), Vision Lab</strong><br/>
+        Worked on <em>HumanGenesis</em>: agent-based geometric + generative modeling for synthetic human dynamics; 
+        consistent 3D reconstruction and dynamic sequence generation from monocular video.
+      </div>
     </div>
   </section>
 
@@ -214,9 +188,11 @@
   <section id="contact">
     <div class="container reveal">
       <h2>Contact</h2>
-      <p>Email: <a href="mailto:taekho@yonsei.ac.kr">taekho@yonsei.ac.kr</a></p>
-      <p>GitHub: <a href="https://github.com/Fizzz9" target="_blank" rel="noreferrer">Fizzz9</a></p>
-      <p class="muted">Location: Seoul, South Korea</p>
+      <div class="block">
+        Email: <a href="mailto:taekho@yonsei.ac.kr">taekho@yonsei.ac.kr</a><br/>
+        GitHub: <a href="https://github.com/Fizzz9" target="_blank" rel="noreferrer">Fizzz9</a><br/>
+        Location: Seoul, South Korea
+      </div>
     </div>
   </section>
 
