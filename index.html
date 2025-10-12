@@ -44,10 +44,11 @@
       linear-gradient(120deg,#0a1018,#0a111c); filter:blur(18px);animation:float 16s ease-in-out infinite alternate;z-index:0}
     @keyframes float{to{transform:translateY(-20px)}}
 
-    section{padding:68px 0}
-    h2{font-size:clamp(26px,3.2vw,38px);margin:0 0 18px}
+    /* ===== 仅此处三处间距调整 ===== */
+    section{padding:52px 0}
+    h2{font-size:clamp(26px,3.2vw,38px);margin:0 0 14px}
     .muted{color:var(--muted)}
-    .block{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;margin:14px 0;box-shadow:var(--shadow)}
+    .block{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;margin:10px 0;box-shadow:var(--shadow)}
     .timeline{border-left:2px solid var(--border);padding-left:16px}
     .tl{margin:10px 0}
 
@@ -72,6 +73,12 @@
     /* paper header */
     .paper-title{margin:0 0 6px;font-weight:900;font-size:1.15rem}
     .authors{margin:0 0 12px;color:var(--muted)}
+
+    /* ===== Education 小图标样式（新增） ===== */
+    .edu-title{display:flex;align-items:center;gap:8px;margin:0 0 6px;font-weight:800}
+    .edu-meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:6px;color:var(--muted)}
+    .edu-meta span{display:inline-flex;align-items:center;gap:6px}
+    .ico{width:16px;height:16px;opacity:.85;vertical-align:-2px}
   </style>
 </head>
 
@@ -137,8 +144,29 @@
       <h2>Education</h2>
       <div class="timeline">
         <div class="tl">
-          <strong>Yonsei University</strong>, B.S. in Computer Science
-          <div class="muted">Mar. 2021 – Jan. 2026 (Expected) · Seoul, South Korea</div>
+          <div class="edu-title">
+            <!-- 学位帽 -->
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M12 3 1 8l11 5 8-3.6V14h2V8L12 3zm0 7.3L5.4 7.5 12 4.7l6.6 2.8L12 10.3zM6 12v3.5c0 2.2 3 3.5 6 3.5s6-1.3 6-3.5V12l-6 2.7L6 12z"/>
+            </svg>
+            Yonsei University <span class="muted">· B.S. in Computer Science</span>
+          </div>
+          <div class="edu-meta">
+            <span>
+              <!-- 日历 -->
+              <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M7 2h2v2h6V2h2v2h3v16H4V4h3V2zm13 6H6v10h14V8z"/>
+              </svg>
+              Mar. 2021 – Jan. 2026 (Expected)
+            </span>
+            <span>
+              <!-- 定位 -->
+              <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/>
+              </svg>
+              Seoul, South Korea
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -284,9 +312,9 @@
       <h2>Skills &amp; Interests</h2>
       <div class="block">
         <p><strong>Skills.</strong>
-        <em>Languages:</em> Python, C/C++, Java, MATLAB.</p>
-        </p><em>Frameworks:</em> PyTorch, CUDA; diffusion &amp; generative vision.</p>
-        </p><em>Systems/Tools:</em> Linux, HuggingFace, Weights &amp; Biases, LaTeX.</p>
+        <em>Languages:</em> Python, C/C++, Java, MATLAB.
+        <em>Frameworks:</em> PyTorch, CUDA; diffusion &amp; generative vision.
+        <em>Systems/Tools:</em> Linux, HuggingFace, Weights &amp; Biases, LaTeX.
         </p>
         <p><strong>Interests.</strong> Travel, Music, Violin, League of Legends.</p>
       </div>
