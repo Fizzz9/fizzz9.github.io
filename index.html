@@ -248,4 +248,73 @@
   </section>
 
   <!-- Projects (LLM / NLP) -->
-  <section id="p
+  <section id="projects">
+    <div class="container reveal">
+      <h2>Projects (LLM / NLP)</h2>
+
+      <div class="block">
+        <div class="row">
+          <div class="left"><strong>2025.02 – 2025.04</strong></div>
+          <div class="right">
+            <strong>Tiny Reasoning Agent (Distillation)</strong><br/>
+            Distillation-enhanced tiny LMs with chain-of-thought and tool-use under ReAct; improved reasoning quality and sample efficiency.
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="row">
+          <div class="left"><strong>2024.11 – 2025.01</strong></div>
+          <div class="right">
+            <strong>Reduce Perplexity for LLaMA-3.2-1B</strong><br/>
+            Continued pretraining on Korean corpus; LoRA fine-tuning and dataset curation; prompting ablations.
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="row">
+          <div class="left"><strong>2024.09 – 2024.11</strong></div>
+          <div class="right">
+            <strong>ReAct Agents &amp; Prompting Strategies</strong><br/>
+            Few-Shot / Self-Ask / Self-Consistency / Self-Refine; comprehensive ablations on QA &amp; interactive tasks.
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="row">
+          <div class="left"><strong>2024.07 – 2024.08</strong></div>
+          <div class="right">
+            <strong>CoT vs ToT Experiments</strong><br/>
+            Systematic comparisons on commonsense QA &amp; textual reasoning benchmarks; consistent gains over direct-answer baselines.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container reveal">
+      <h2>Contact</h2>
+      <div class="block">
+        Email: <a href="mailto:taekho@yonsei.ac.kr">taekho@yonsei.ac.kr</a><br/>
+        GitHub: <a href="https://github.com/Fizzz9" target="_blank" rel="noreferrer">Fizzz9</a><br/>
+        Location: Seoul, South Korea
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">© <span id="year"></span> Zehao Zhang · Academic Website.</div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver((entries)=>entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible') }), {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
