@@ -84,8 +84,8 @@
         <a href="#about">About Me</a>
         <a href="#education">Education</a>
         <a href="#publications">Publications</a>
-        <a href="#practice">研究经历</a>
-        <a href="#internships">INDUSTRY EXPERIENCE</a>
+        <a href="#practice">Research Experience</a>
+        <a href="#internships">Industry Experience</a>
         <a href="#projects">Projects</a>
         <a href="#contact">Skills &amp; Interests</a>
       </nav>
@@ -116,15 +116,12 @@
         <div class="about-flex">
           <img src="/assets/img/1.jpg" alt="Zehao Zhang" class="about-pic">
           <div class="about-text">
-            I work on <strong>computer vision</strong> and <strong>multimodal modeling</strong>, with a focus on
+            I work on <strong>computer vision</strong> and <strong>multimodal modeling</strong>, focusing on
             <strong>generative vision models</strong> and their integration with <strong>LLMs/VLMs</strong>.
-            I’m interested in making perception and language mutually informative—using geometry and video priors to
-            ground large models, while leveraging language to structure and control visual generation.
             <br/><br/>
-            <strong>Goal.</strong> Build <strong>vision–language systems</strong> that (i) couple explicit geometric
-            reasoning with generative modeling for consistent, editable video; (ii) align vision and language
-            to enable reliable <em>instruction-following perception</em>; and (iii) transfer to
-            <em>embodied</em> scenarios where agents perceive, plan, and act with interpretable control.
+            My long-term goal is to build coherent <strong>vision–language systems</strong> that ground large models in
+            geometry/video priors for consistent, editable generation while using language to organize and control perception,
+            and to transfer these capabilities to embodied agents that perceive, plan, and act with human-interpretable control.
           </div>
         </div>
       </div>
@@ -156,10 +153,8 @@
             <div class="authors">Weiqi Li, <strong>Zehao Zhang</strong>, Liang Lin, Guangrun Wang</div>
             <p>
               <strong>HumanGenesis</strong> develops a high-fidelity human synthesis pipeline that couples
-              geometric reconstruction with generative refinement, enabling temporally consistent dynamic
-              sequences from monocular inputs. A <em>Reflector</em> component introduces human-in-the-loop feedback
-              to correct reconstruction drift and enhance perceptual fidelity, yielding stable, detailed renderings
-              for animation and reenactment.
+              geometric reconstruction with generative refinement to produce temporally consistent sequences from monocular inputs;
+              a <em>Reflector</em> adds human-in-the-loop corrections to reduce drift and improve perceptual fidelity.
             </p>
             <div class="btns" style="justify-content:flex-start">
               <a class="btn ghost" href="https://liwq229.github.io/humangenesis" target="_blank" rel="noreferrer">Project Page</a>
@@ -171,10 +166,10 @@
     </div>
   </section>
 
-  <!-- 研究经历 -->
+  <!-- RESEARCH EXPERIENCE -->
   <section id="practice">
     <div class="container reveal">
-      <h2>研究经历</h2>
+      <h2>Research Experience</h2>
       <div class="block">
         <div class="media">
           <img src="/assets/img/3.png" alt="Attention-Conditional Diffusion (ACD)" class="media-img">
@@ -185,9 +180,8 @@
                 <strong>Attention-Conditional Diffusion for Video</strong><br/>
                 <em>Research intern with Prof. Guangrun Wang (Sun Yat-sen University)</em>
                 <p style="margin-top:8px">
-                  We inject conditional control via supervised attention to improve semantic and spatial alignment,
-                  and design a sparse 3D-aware layout with ControlNet plus automated annotation for interpretable control,
-                  reducing artifacts and improving temporal consistency.
+                  We inject supervised attention for controllable conditioning and design a sparse 3D-aware layout with ControlNet plus automated annotation,
+                  improving semantic/spatial alignment and temporal consistency while reducing artifacts.
                 </p>
               </div>
             </div>
@@ -200,7 +194,7 @@
   <!-- INDUSTRY EXPERIENCE -->
   <section id="internships">
     <div class="container reveal">
-      <h2>INDUSTRY EXPERIENCE</h2>
+      <h2>Industry Experience</h2>
       <div class="block">
         <div class="media">
           <img src="/assets/img/4.png" alt="Lenovo AI Lab Internship" class="media-img">
@@ -209,10 +203,8 @@
               <div class="left"><strong>2023.10 – 2024.01</strong></div>
               <div class="right">
                 <strong>Research Intern — Lenovo AI Lab</strong><br/>
-                Object-detection pipeline development in <em>PyTorch</em>. Conducted controlled comparisons of
-                detector families and training recipes, analyzing accuracy–latency–memory trade-offs. Optimized
-                data curation, augmentation, and deployment settings to improve throughput while preserving
-                detection quality across device constraints.
+                Object-detection pipeline development in <em>PyTorch</em>. Controlled comparisons of detector families and training recipes (accuracy/latency/memory);
+                optimized data curation, augmentation, and deployment to raise throughput without sacrificing quality.
               </div>
             </div>
           </div>
@@ -231,8 +223,7 @@
           <div class="left"><strong>2025.03 – 2025.07</strong></div>
           <div class="right">
             <strong>Tiny Reasoning Agent (Distillation)</strong><br/>
-            Distilled chain-of-thought and tool-use behaviors into tiny LMs under ReAct, improving sample efficiency
-            and stability on multi-step reasoning tasks.
+            Distilled chain-of-thought and tool-use behaviors into tiny LMs under ReAct, improving sample efficiency and stability on multi-step reasoning.
           </div>
         </div>
       </div>
@@ -242,8 +233,7 @@
           <div class="left"><strong>2024.11 – 2025.01</strong></div>
           <div class="right">
             <strong>Reduce Perplexity for LLaMA-3.2-1B</strong><br/>
-            Continued pretraining on a large-scale Korean corpus; parameter-efficient tuning (LoRA) and prompting ablations
-            to enhance linguistic robustness.
+            Continued pretraining on a large-scale Korean corpus with PEFT (LoRA) and prompting ablations to enhance linguistic robustness.
           </div>
         </div>
       </div>
@@ -253,8 +243,7 @@
           <div class="left"><strong>2024.09 – 2024.11</strong></div>
           <div class="right">
             <strong>ReAct Agents &amp; Prompting Strategies</strong><br/>
-            Comparative study of Few-Shot, Self-Ask, Self-Consistency, and Self-Refine within ReAct on QA/interactive tasks;
-            moderate structure improves stability, while excessive stacking can degrade performance.
+            Compared Few-Shot, Self-Ask/Consistency/Refine within ReAct on QA/interactive tasks; moderate structure improves reliability, over-stacking harms it.
           </div>
         </div>
       </div>
@@ -264,22 +253,16 @@
           <div class="left"><strong>2024.07 – 2024.08</strong></div>
           <div class="right">
             <strong>CoT vs. ToT Reasoning</strong><br/>
-            Evaluated chain- vs tree-structured prompting on commonsense benchmarks; ToT shows broad gains while CoT remains
-            competitive in low-data regimes.
+            Benchmarked chain- vs tree-structured prompting; ToT generally wins, while CoT remains competitive in low-data regimes.
           </div>
         </div>
       </div>
-
-      <!-- LLaMA-2：按图2内容整理 -->
       <div class="block">
         <div class="row">
           <div class="left"><strong>2024.05 – 2024.06</strong></div>
           <div class="right">
-            <strong>Analysis and Implementation of LLaMA-2 Architecture Features</strong><br/>
-            In-depth study and re-implementation of five core components—<em>Rotary Positional Embedding</em>, <em>Pre-Norm</em>,
-            <em>SwiGLU</em>, <em>RMSNorm</em>, and <em>Grouped Query Attention</em>. We analyze limitations of vanilla transformers
-            (positional aliasing, gradient flow, activation efficiency, normalization stability, and KV reuse) and explain how each
-            feature addresses a specific challenge to improve training stability and inference efficiency.
+            <strong>Analysis &amp; Implementation of LLaMA-2 Features</strong><br/>
+            Re-implemented Rotary PE, Pre-Norm, SwiGLU, RMSNorm, and GQA; tied each to a vanilla-Transformer weakness (positional aliasing, gradient flow, activation efficiency, stability, KV reuse) to explain training/inference gains.
           </div>
         </div>
       </div>
@@ -292,8 +275,8 @@
     <div class="container reveal">
       <h2>Skills &amp; Interests</h2>
       <div class="block">
-        <p><strong>Skills.</strong> Python, PyTorch, CUDA; diffusion models &amp; ControlNet; video/geometry processing; LLM/VLM toolchains (prompting, distillation, PEFT/LoRA); training/eval pipelines; Docker, Git.</p>
-        <p><strong>Interests.</strong> Vision-language modeling, generative video, 3D/embodied intelligence; outside work: running &amp; photography.</p>
+        <p><strong>Skills.</strong> Languages: Python, C/C++, JavaScript/TypeScript. Frameworks: PyTorch, PyTorch Lightning, CUDA/TensorRT, OpenCV, FastAPI. Tooling: Linux, Git, Docker, tmux, ffmpeg, Weights&amp;Biases, HuggingFace, NVIDIA Nsight. Training: DDP/AMP, LoRA/PEFT; experiment/data pipelines and evaluation.</p>
+        <p><strong>Interests.</strong> Travel, Music, Violin, League of Legends.</p>
       </div>
     </div>
   </section>
