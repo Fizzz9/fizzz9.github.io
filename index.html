@@ -44,8 +44,8 @@
       linear-gradient(120deg,#0a1018,#0a111c); filter:blur(18px);animation:float 16s ease-in-out infinite alternate;z-index:0}
     @keyframes float{to{transform:translateY(-20px)}}
 
-    /* ===== 仅此处三处间距调整 ===== */
-    section{padding:52px 0}
+    /* ===== 间距更小 ===== */
+    section{padding:44px 0}
     h2{font-size:clamp(26px,3.2vw,38px);margin:0 0 14px}
     .muted{color:var(--muted)}
     .block{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;margin:10px 0;box-shadow:var(--shadow)}
@@ -62,7 +62,7 @@
     .media-img{flex:0 0 360px;width:360px;max-width:100%;border-radius:12px;border:1px solid var(--border);box-shadow:0 8px 20px rgba(0,0,0,.4)}
     .media-body{flex:1 1 520px;min-width:300px}
     .row{display:flex;gap:16px;flex-wrap:wrap}
-    .left{flex:0 0 160px;white-space:nowrap}  /* 日期始终一行 */
+    .left{flex:0 0 160px;white-space:nowrap}
     .right{flex:1 1 auto}
 
     .reveal{opacity:0;transform:translateY(10px);transition:all .6s ease}
@@ -74,11 +74,15 @@
     .paper-title{margin:0 0 6px;font-weight:900;font-size:1.15rem}
     .authors{margin:0 0 12px;color:var(--muted)}
 
-    /* ===== Education 小图标样式（新增） ===== */
+    /* ===== Education 小图标样式 ===== */
     .edu-title{display:flex;align-items:center;gap:8px;margin:0 0 6px;font-weight:800}
-    .edu-meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:6px;color:var(--muted)}
-    .edu-meta span{display:inline-flex;align-items:center;gap:6px}
+    /* 让时间与地点分两行 */
+    .edu-meta{display:block;margin-top:6px;color:var(--muted)}
+    .edu-meta span{display:block;margin:2px 0}
     .ico{width:16px;height:16px;opacity:.85;vertical-align:-2px}
+
+    /* ===== Skills 每类单独一行 ===== */
+    .skill-row{display:block;margin:2px 0}
   </style>
 </head>
 
