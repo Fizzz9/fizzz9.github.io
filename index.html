@@ -4,22 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Zehao Zhang — Academic Website</title>
-  <meta name="description" content="Zehao Zhang — CS undergraduate at Yonsei University. Computer Vision, LLMs, Generative AI, Reinforcement Learning."/>
+  <meta name="description" content="Zehao Zhang — CS undergraduate at Yonsei University. Computer Vision, Multimodal Modeling, Generative Vision Models, LLM/VLM."/>
   <style>
     :root{
-      --bg:#0a0f16;
-      --fg:#f8fbff;
-      --muted:#d3e0f2;
-      --accent:#5DE0E6;
-      --card:#0f1830;
-      --border:rgba(255,255,255,.16);
-      --shadow:0 14px 40px rgba(0,0,0,.35);
+      --bg:#0a0f16; --fg:#f8fbff; --muted:#d3e0f2; --accent:#5DE0E6;
+      --card:#0f1830; --border:rgba(255,255,255,.16); --shadow:0 14px 40px rgba(0,0,0,.35);
     }
     @media (prefers-color-scheme: light){
-      :root{
-        --bg:#f7fbff; --fg:#0b1726; --muted:#4a5a6b; --card:#ffffff; --border:rgba(0,0,0,.12);
-        --shadow:0 14px 40px rgba(0,0,0,.08);
-      }
+      :root{ --bg:#f7fbff; --fg:#0b1726; --muted:#4a5a6b; --card:#ffffff; --border:rgba(0,0,0,.12); --shadow:0 14px 40px rgba(0,0,0,.08); }
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);
@@ -28,6 +20,7 @@
     a:hover{opacity:.95}
     .container{max-width:1180px;margin:0 auto;padding:0 24px}
 
+    /* nav */
     .nav{position:sticky;top:0;z-index:50;background:rgba(13,18,28,.72);
       backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
     .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
@@ -35,98 +28,71 @@
     .nav a{color:var(--fg);opacity:.92;margin-left:18px;font-size:1rem}
     .nav a:hover,.nav a.active{opacity:1}
 
+    /* hero */
     .hero{position:relative;min-height:56vh;display:grid;place-items:center;overflow:hidden}
     .hero .inner{text-align:center;padding:58px 0;position:relative;z-index:2}
-    .hero h1{
-      font-size:clamp(40px,7vw,76px);margin:0 0 12px 0;letter-spacing:.6px;
-      color:#ffffff;text-shadow:0 3px 16px rgba(20,40,80,.55), 0 0 1px #fff;
-      font-weight:900;
-    }
-    .hero p{
-      color:#ffffff;font-size:1.2rem;margin:12px auto 20px;max-width:880px;
-      text-shadow:0 2px 12px rgba(0,0,0,.35);
-    }
+    .hero h1{font-size:clamp(40px,7vw,76px);margin:0 0 12px;letter-spacing:.6px;color:#fff;text-shadow:0 3px 16px rgba(20,40,80,.55),0 0 1px #fff;font-weight:900}
+    .hero p{color:#fff;font-size:1.2rem;margin:12px auto 20px;max-width:880px;text-shadow:0 2px 12px rgba(0,0,0,.35)}
     .btns{display:flex;gap:12px;justify-content:center;margin-top:8px;flex-wrap:wrap}
-    .btn{
-      padding:11px 18px;border-radius:999px;background:var(--accent);color:#001018;
-      font-weight:800;box-shadow:0 10px 28px rgba(93,224,230,.45);border:0;font-size:1rem
-    }
-    .btn.ghost{
-      position:relative;background:rgba(255,255,255,.14);color:#fff;border:1.6px solid rgba(255,255,255,.85);
-      font-weight:800;text-shadow:0 1px 6px rgba(0,0,0,.45);
-      box-shadow:0 10px 28px rgba(0,0,0,.45),inset 0 0 0 9999px rgba(255,255,255,.05);
-    }
+    .btn{padding:11px 18px;border-radius:999px;background:var(--accent);color:#001018;font-weight:800;box-shadow:0 10px 28px rgba(93,224,230,.45);border:0;font-size:1rem}
+    .btn.ghost{position:relative;background:rgba(255,255,255,.14);color:#fff;border:1.6px solid rgba(255,255,255,.85);font-weight:800;text-shadow:0 1px 6px rgba(0,0,0,.45);box-shadow:0 10px 28px rgba(0,0,0,.45),inset 0 0 0 9999px rgba(255,255,255,.05)}
     .btn.ghost:hover{background:rgba(255,255,255,.22);transform:translateY(-1px)}
-    @media (prefers-color-scheme: light){
-      .btn.ghost{background:rgba(0,0,0,.08);color:#0b1726;border:1.6px solid rgba(0,0,0,.75);text-shadow:none;
-        box-shadow:0 10px 24px rgba(0,0,0,.12),inset 0 0 0 9999px rgba(0,0,0,.03)}
-      .btn.ghost:hover{background:rgba(0,0,0,.14)}
-    }
+    @media (prefers-color-scheme: light){ .btn.ghost{background:rgba(0,0,0,.08);color:#0b1726;border:1.6px solid rgba(0,0,0,.75);text-shadow:none;box-shadow:0 10px 24px rgba(0,0,0,.12),inset 0 0 0 9999px rgba(0,0,0,.03)} .btn.ghost:hover{background:rgba(0,0,0,.14)} }
     .anim-gradient{position:absolute;inset:-20%;background:
       radial-gradient(560px 360px at 22% 28%,rgba(93,224,230,.38),transparent 60%),
       radial-gradient(560px 360px at 78% 74%,rgba(161,113,255,.34),transparent 60%),
-      linear-gradient(120deg,#0a1018,#0a111c);
-      filter:blur(18px);animation:float 16s ease-in-out infinite alternate;z-index:0}
+      linear-gradient(120deg,#0a1018,#0a111c); filter:blur(18px);animation:float 16s ease-in-out infinite alternate;z-index:0}
     @keyframes float{to{transform:translateY(-20px)}}
 
     section{padding:68px 0}
-    h2{font-size:clamp(26px,3.2vw,38px);margin:0 0 18px 0}
+    h2{font-size:clamp(26px,3.2vw,38px);margin:0 0 18px}
     .muted{color:var(--muted)}
-
     .block{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;margin:14px 0;box-shadow:var(--shadow)}
     .timeline{border-left:2px solid var(--border);padding-left:16px}
     .tl{margin:10px 0}
 
+    /* about */
     .about-flex{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
     .about-pic{width:180px;border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.35);border:1px solid var(--border)}
     .about-text{flex:1 1 420px;min-width:300px;text-align:left}
 
+    /* media blocks */
     .media{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
-    .media-img{
-      flex:0 0 360px; width:360px; max-width:100%;
-      border-radius:12px; border:1px solid var(--border); box-shadow:0 8px 20px rgba(0,0,0,.4);
-    }
+    .media-img{flex:0 0 360px;width:360px;max-width:100%;border-radius:12px;border:1px solid var(--border);box-shadow:0 8px 20px rgba(0,0,0,.4)}
     .media-body{flex:1 1 520px;min-width:300px}
-
     .row{display:flex;gap:16px;flex-wrap:wrap}
-    .left{flex:0 0 160px;white-space:nowrap}   /* 日期始终一行 */
+    .left{flex:0 0 160px;white-space:nowrap}  /* 日期始终一行 */
     .right{flex:1 1 auto}
 
     .reveal{opacity:0;transform:translateY(10px);transition:all .6s ease}
     .reveal.visible{opacity:1;transform:none}
-
     footer{padding:28px 0;border-top:1px solid var(--border);text-align:center;color:var(--muted)}
+    @media (max-width: 860px){ .media-img{flex:1 1 100%;width:100%} .about-pic{width:160px} .left{flex:0 0 120px} }
 
-    @media (max-width: 860px){
-      .media-img{flex:1 1 100%; width:100%}
-      .about-pic{width:160px}
-      .left{flex:0 0 120px}
-    }
-
-    /* Publications 里的标题/作者样式 */
+    /* paper header */
     .paper-title{margin:0 0 6px;font-weight:900;font-size:1.15rem}
     .authors{margin:0 0 12px;color:var(--muted)}
   </style>
 </head>
 
 <body>
-  <!-- Nav -->
+  <!-- NAV -->
   <header class="nav">
     <div class="nav-inner container">
       <a class="logo" href="#top">Zehao Zhang</a>
       <nav>
-        <a href="#about">About</a>
+        <a href="#about">About Me</a>
         <a href="#education">Education</a>
         <a href="#publications">Publications</a>
-        <a href="#practice">Practice</a>
-        <a href="#internships">Internships</a>
+        <a href="#practice">研究经历</a>
+        <a href="#internships">INDUSTRY EXPERIENCE</a>
         <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
+        <a href="#contact">Skills &amp; Interests</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero -->
+  <!-- HERO -->
   <section id="top" class="hero">
     <div class="inner reveal">
       <h1>Zehao Zhang</h1>
@@ -142,29 +108,30 @@
     <div class="anim-gradient"></div>
   </section>
 
-  <!-- About：视觉 + 多模态；更深入的 Goal -->
+  <!-- ABOUT ME -->
   <section id="about">
     <div class="container reveal">
-      <h2>About</h2>
+      <h2>About Me</h2>
       <div class="block">
         <div class="about-flex">
           <img src="/assets/img/1.jpg" alt="Zehao Zhang" class="about-pic">
           <div class="about-text">
-            I’m an undergraduate in <strong>Computer Science</strong> at <strong>Yonsei University</strong>.
-            I currently focus on <strong>computer vision</strong> and <strong>multimodal modeling</strong>,
-            building systems that perceive the world, align with language, and act in a controllable way.
+            I work on <strong>computer vision</strong> and <strong>multimodal modeling</strong>, with a focus on
+            <strong>generative vision models</strong> and their integration with <strong>LLMs/VLMs</strong>.
+            I’m interested in making perception and language mutually informative—using geometry and video priors to
+            ground large models, while leveraging language to structure and control visual generation.
             <br/><br/>
-            <strong>Goal.</strong> In the long run, I aim to build <strong>robust, generalizable vision–language agents</strong>
-            that (1) learn from sparse supervision and weak geometric cues, (2) maintain temporal consistency and
-            causality under distribution shift, and (3) expose <em>interpretable control knobs</em> so that human users
-            can reliably steer perception and behavior in real-world tasks.
+            <strong>Goal.</strong> Build <strong>vision–language systems</strong> that (i) couple explicit geometric
+            reasoning with generative modeling for consistent, editable video; (ii) align vision and language
+            to enable reliable <em>instruction-following perception</em>; and (iii) transfer to
+            <em>embodied</em> scenarios where agents perceive, plan, and act with interpretable control.
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Education -->
+  <!-- EDUCATION -->
   <section id="education">
     <div class="container reveal">
       <h2>Education</h2>
@@ -177,7 +144,7 @@
     </div>
   </section>
 
-  <!-- Publications：标题 + 作者（你的名字加粗） + 简介 -->
+  <!-- PUBLICATIONS -->
   <section id="publications">
     <div class="container reveal">
       <h2>Publications</h2>
@@ -190,9 +157,9 @@
             <p>
               <strong>HumanGenesis</strong> develops a high-fidelity human synthesis pipeline that couples
               geometric reconstruction with generative refinement, enabling temporally consistent dynamic
-              sequences from monocular inputs. A <em>Reflector</em> component brings human-in-the-loop feedback
-              to correct reconstruction errors and enhance perceptual fidelity, yielding more stable and detailed
-              renderings for downstream animation and reenactment.
+              sequences from monocular inputs. A <em>Reflector</em> component introduces human-in-the-loop feedback
+              to correct reconstruction drift and enhance perceptual fidelity, yielding stable, detailed renderings
+              for animation and reenactment.
             </p>
             <div class="btns" style="justify-content:flex-start">
               <a class="btn ghost" href="https://liwq229.github.io/humangenesis" target="_blank" rel="noreferrer">Project Page</a>
@@ -204,10 +171,10 @@
     </div>
   </section>
 
-  <!-- Practice：日期一行显示 -->
+  <!-- 研究经历 -->
   <section id="practice">
     <div class="container reveal">
-      <h2>Practice / Research</h2>
+      <h2>研究经历</h2>
       <div class="block">
         <div class="media">
           <img src="/assets/img/3.png" alt="Attention-Conditional Diffusion (ACD)" class="media-img">
@@ -216,10 +183,12 @@
               <div class="left"><strong>2024.12 – 2025.09</strong></div>
               <div class="right">
                 <strong>Attention-Conditional Diffusion for Video</strong><br/>
-                Research intern with <em>Prof. Guangrun Wang</em> (Sun Yat-sen University).
-                We inject conditional control via supervised attention to improve semantic and spatial alignment,
-                and design a sparse 3D-aware layout with ControlNet plus automated annotation for interpretable control,
-                reducing artifacts and improving temporal consistency.
+                <em>Research intern with Prof. Guangrun Wang (Sun Yat-sen University)</em>
+                <p style="margin-top:8px">
+                  We inject conditional control via supervised attention to improve semantic and spatial alignment,
+                  and design a sparse 3D-aware layout with ControlNet plus automated annotation for interpretable control,
+                  reducing artifacts and improving temporal consistency.
+                </p>
               </div>
             </div>
           </div>
@@ -228,10 +197,10 @@
     </div>
   </section>
 
-  <!-- Internships：日期一行 + 更学术化描述 -->
+  <!-- INDUSTRY EXPERIENCE -->
   <section id="internships">
     <div class="container reveal">
-      <h2>Internships</h2>
+      <h2>INDUSTRY EXPERIENCE</h2>
       <div class="block">
         <div class="media">
           <img src="/assets/img/4.png" alt="Lenovo AI Lab Internship" class="media-img">
@@ -252,7 +221,7 @@
     </div>
   </section>
 
-  <!-- Projects (LLM / NLP)：新增 LLaMA-2 缺陷项目 -->
+  <!-- PROJECTS (LLM / NLP) -->
   <section id="projects">
     <div class="container reveal">
       <h2>Projects (LLM / NLP)</h2>
@@ -263,7 +232,7 @@
           <div class="right">
             <strong>Tiny Reasoning Agent (Distillation)</strong><br/>
             Distilled chain-of-thought and tool-use behaviors into tiny LMs under ReAct, improving sample efficiency
-            and reliability on multi-step reasoning tasks.
+            and stability on multi-step reasoning tasks.
           </div>
         </div>
       </div>
@@ -282,7 +251,7 @@
       <div class="block">
         <div class="row">
           <div class="left"><strong>2024.09 – 2024.11</strong></div>
-        <div class="right">
+          <div class="right">
             <strong>ReAct Agents &amp; Prompting Strategies</strong><br/>
             Comparative study of Few-Shot, Self-Ask, Self-Consistency, and Self-Refine within ReAct on QA/interactive tasks;
             moderate structure improves stability, while excessive stacking can degrade performance.
@@ -295,21 +264,21 @@
           <div class="left"><strong>2024.07 – 2024.08</strong></div>
           <div class="right">
             <strong>CoT vs. ToT Reasoning</strong><br/>
-            Evaluated chain- vs tree-structured reasoning on commonsense benchmarks; ToT shows broad gains while CoT remains
+            Evaluated chain- vs tree-structured prompting on commonsense benchmarks; ToT shows broad gains while CoT remains
             competitive in low-data regimes.
           </div>
         </div>
       </div>
 
-      <!-- 新增：LLaMA-2 缺陷分析 -->
       <div class="block">
         <div class="row">
           <div class="left"><strong>2024.05 – 2024.06</strong></div>
           <div class="right">
-            <strong>On Practical Deficiencies of LLaMA-2</strong><br/>
-            Audited instruction-tuned variants for failure modes: length bias, shallow chain-of-thought collapse,
-            over-refusal from safety filters, and context-length instability. Proposed lightweight data filtering and
-            prompt-scoping strategies that mitigate refusal and stabilize long-context behavior without full retraining.
+            <strong>Analysis and Implementation of LLaMA-2 Architecture Features</strong><br/>
+            In-depth study and re-implementation of five core components—<em>Rotary Positional Embedding</em>, <em>Pre-Norm</em>,
+            <em>SwiGLU</em>, <em>RMSNorm</em>, and <em>Grouped Query Attention</em>. We analyze limitations of vanilla transformers
+            (positional aliasing, gradient flow, activation efficiency, normalization stability, and KV reuse) and explain how each
+            feature addresses a specific challenge to improve training stability and inference efficiency.
           </div>
         </div>
       </div>
@@ -317,14 +286,13 @@
     </div>
   </section>
 
-  <!-- Contact -->
+  <!-- SKILLS & INTERESTS -->
   <section id="contact">
     <div class="container reveal">
-      <h2>Contact</h2>
+      <h2>Skills &amp; Interests</h2>
       <div class="block">
-        Email: <a href="mailto:taekho@yonsei.ac.kr">taekho@yonsei.ac.kr</a><br/>
-        GitHub: <a href="https://github.com/Fizzz9" target="_blank" rel="noreferrer">Fizzz9</a><br/>
-        Location: Seoul, South Korea
+        <p><strong>Skills.</strong> Python, PyTorch, CUDA; diffusion models &amp; ControlNet; video/geometry processing; LLM/VLM toolchains (prompting, distillation, PEFT/LoRA); training/eval pipelines; Docker, Git.</p>
+        <p><strong>Interests.</strong> Vision-language modeling, generative video, 3D/embodied intelligence; outside work: running &amp; photography.</p>
       </div>
     </div>
   </section>
