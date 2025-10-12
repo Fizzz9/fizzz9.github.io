@@ -4,59 +4,81 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Zehao Zhang — Academic Website</title>
-  <meta name="description" content="Zehao Zhang — CS undergraduate at Yonsei University. Research interests in Computer Vision, LLMs, Generative AI, Reinforcement Learning."/>
+  <meta name="description" content="Zehao Zhang — CS undergraduate at Yonsei University. Computer Vision, LLMs, Generative AI, Reinforcement Learning."/>
   <style>
     :root{
-      --bg:#0b0f15; --fg:#eef6ff; --muted:#c7d5e7; --accent:#5DE0E6;
-      --card:#0f1726; --border:rgba(255,255,255,.12);
+      --bg:#0a0f16;
+      --fg:#f8fbff;          /* 更亮的正文 */
+      --muted:#d3e0f2;       /* 次级文字也提亮 */
+      --accent:#5DE0E6;      /* 主色按钮 */
+      --card:#0f1830;
+      --border:rgba(255,255,255,.16);
+      --shadow:0 14px 40px rgba(0,0,0,.35);
     }
     @media (prefers-color-scheme: light){
-      :root{ --bg:#f7faff; --fg:#0c1626; --muted:#4a5a6b; --card:#ffffff; --border:rgba(0,0,0,.12); }
+      :root{
+        --bg:#f7fbff; --fg:#0b1726; --muted:#4a5a6b; --card:#ffffff; --border:rgba(0,0,0,.12);
+        --shadow:0 14px 40px rgba(0,0,0,.08);
+      }
     }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);
-      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.68;scroll-behavior:smooth}
+      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.7;scroll-behavior:smooth}
     a{color:var(--fg);text-decoration:none}
-    a:hover{opacity:.92}
-    .container{max-width:1000px;margin:0 auto;padding:0 20px}
+    a:hover{opacity:.95}
+    .container{max-width:980px;margin:0 auto;padding:0 20px}
 
-    /* Nav */
-    .nav{position:sticky;top:0;z-index:50;background:rgba(10,14,20,.55);
+    /* 顶部导航（更亮） */
+    .nav{position:sticky;top:0;z-index:50;background:rgba(13,18,28,.72);
       backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
     .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
-    .logo{font-weight:800;letter-spacing:.4px}
-    .nav a{color:var(--muted);margin-left:18px;font-size:.98rem}
-    .nav a:hover,.nav a.active{color:var(--fg)}
+    .logo{font-weight:900;letter-spacing:.5px}
+    .nav a{color:var(--fg);opacity:.92;margin-left:18px;font-size:1rem}
+    .nav a:hover,.nav a.active{opacity:1}
 
-    /* Hero（更亮） */
-    .hero{position:relative;min-height:58vh;display:grid;place-items:center;overflow:hidden}
-    .hero .inner{text-align:center;padding:52px 0;position:relative;z-index:2}
-    .hero h1{font-size:clamp(36px,6vw,66px);margin:0 0 12px 0;letter-spacing:.5px}
-    .hero p{color:#e5f1ff;font-size:1.12rem;margin:10px auto 18px;max-width:860px}
+    /* Hero（名字和按钮高亮可读） */
+    .hero{position:relative;min-height:56vh;display:grid;place-items:center;overflow:hidden}
+    .hero .inner{text-align:center;padding:58px 0;position:relative;z-index:2}
+    .hero h1{
+      font-size:clamp(40px,7vw,76px);margin:0 0 12px 0;letter-spacing:.6px;
+      color:#ffffff;text-shadow:0 3px 16px rgba(20,40,80,.55), 0 0 1px #fff;
+    }
+    .hero p{
+      color:#ffffff; /* 简介完全高亮 */
+      font-size:1.2rem;margin:12px auto 20px;max-width:880px;
+      text-shadow:0 2px 12px rgba(0,0,0,.35);
+    }
     .btns{display:flex;gap:12px;justify-content:center;margin-top:8px;flex-wrap:wrap}
-    .btn{padding:10px 16px;border-radius:999px;background:var(--accent);color:#001018;font-weight:700;
-      box-shadow:0 6px 24px rgba(93,224,230,.28)}
-    .btn.ghost{background:transparent;border:1px solid var(--border);color:var(--fg)}
-    .link-pill{padding:9px 14px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.06)}
+    .btn{
+      padding:11px 18px;border-radius:999px;background:var(--accent);color:#001018;
+      font-weight:800;box-shadow:0 10px 28px rgba(93,224,230,.45);border:0;font-size:1rem
+    }
+    .btn.ghost{
+      background:rgba(255,255,255,.16); color:#fff; border:1px solid rgba(255,255,255,.35);
+      box-shadow:0 10px 28px rgba(0,0,0,.35)
+    }
     .anim-gradient{position:absolute;inset:-20%;background:
-      radial-gradient(560px 360px at 22% 28%,rgba(93,224,230,.32),transparent 60%),
-      radial-gradient(560px 360px at 78% 74%,rgba(161,113,255,.28),transparent 60%),
-      linear-gradient(120deg,#0b0f18,#09111c);
-      filter:blur(20px);animation:float 16s ease-in-out infinite alternate;z-index:0}
+      radial-gradient(560px 360px at 22% 28%,rgba(93,224,230,.38),transparent 60%),
+      radial-gradient(560px 360px at 78% 74%,rgba(161,113,255,.34),transparent 60%),
+      linear-gradient(120deg,#0a1018,#0a111c);
+      filter:blur(18px);animation:float 16s ease-in-out infinite alternate;z-index:0}
     @keyframes float{to{transform:translateY(-20px)}}
 
     /* Sections */
     section{padding:64px 0}
-    h2{font-size:clamp(24px,3.2vw,36px);margin:0 0 16px 0}
+    h2{font-size:clamp(24px,3.2vw,36px);margin:0 0 18px 0}
     .muted{color:var(--muted)}
 
-    /* Blocks */
-    .block{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 18px;margin:10px 0}
-    ul.clean{list-style:disc;margin-left:20px}
-    .timeline{border-left:2px solid var(--border);padding-left:16px}
-    .tl{margin:8px 0}
+    /* 内容块（竖向卡片） */
+    .block{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 18px;margin:12px 0;box-shadow:var(--shadow)}
+    .row{display:flex;gap:16px;flex-wrap:wrap}
+    .left{flex:1 1 220px}
+    .right{flex:4 1 520px}
 
-    /* Reveal animation */
+    .timeline{border-left:2px solid var(--border);padding-left:16px}
+    .tl{margin:10px 0}
+
+    /* Reveal 动画 */
     .reveal{opacity:0;transform:translateY(10px);transition:all .6s ease}
     .reveal.visible{opacity:1;transform:none}
 
@@ -75,42 +97,44 @@
         <a href="#publications">Publications</a>
         <a href="#practice">Practice</a>
         <a href="#internships">Internships</a>
+        <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero -->
+  <!-- Hero（亮色名字+简介+三按钮） -->
   <section id="top" class="hero">
     <div class="inner reveal">
       <h1>Zehao Zhang</h1>
-      <p>CS undergraduate @ Yonsei University. Interests in <strong>Computer Vision</strong>, 
-        <strong>Large Language Models</strong>, <strong>Generative AI</strong>, and 
-        <strong>Reinforcement Learning</strong>.</p>
-
-      <!-- 你的邮箱 / GitHub / CV 链接（按钮样式） -->
+      <p>CS undergraduate @ Yonsei University. Interests in <strong>Computer Vision</strong>,
+         <strong>Large Language Models</strong>, <strong>Generative AI</strong>, and
+         <strong>Reinforcement Learning</strong>.</p>
       <div class="btns">
         <a class="btn" href="mailto:taekho@yonsei.ac.kr">Email</a>
         <a class="btn ghost" href="https://github.com/Fizzz9" target="_blank" rel="noreferrer">GitHub</a>
-        <!-- 把 cv.pdf 上传到仓库根目录或 assets/cv.pdf，再改成对应路径即可 -->
+        <!-- 把 cv.pdf 放到仓库根目录或改成你的链接 -->
         <a class="btn ghost" href="/cv.pdf" target="_blank" rel="noreferrer">CV (PDF)</a>
       </div>
     </div>
     <div class="anim-gradient"></div>
   </section>
 
-  <!-- About（简短） -->
+  <!-- About（简短自我介绍与目标） -->
   <section id="about">
     <div class="container reveal">
       <h2>About</h2>
       <div class="block">
-        I build intelligent systems that perceive, reason, and act. Recently I’ve been exploring
-        imitation learning, offline RL, and vision methods that improve agent capabilities.
+        I’m an undergraduate in <strong>Computer Science</strong> at <strong>Yonsei University</strong>.
+        I enjoy building systems that can <em>perceive</em>, <em>reason</em>, and <em>act</em>.
+        I’m currently exploring vision + language models and decision-making with RL.
+        <br/><br/>
+        <strong>Goal.</strong> I aim to contribute to robust, generalizable <strong>vision &amp; multimodal agents</strong> that solve real-world tasks with reliability and interpretability.
       </div>
     </div>
   </section>
 
-  <!-- Education -->
+  <!-- Education（不写课程） -->
   <section id="education">
     <div class="container reveal">
       <h2>Education</h2>
@@ -118,69 +142,104 @@
         <div class="tl">
           <strong>Yonsei University</strong>, B.S. in Computer Science
           <div class="muted">Mar. 2021 – Jan. 2026 (Expected) · Seoul, South Korea</div>
-          <div class="muted">Relevant courses: Linear Algebra, Probability & Statistics, Discrete Structures, Data Structures, Operating Systems, Computer Vision, Network Security, Machine Learning, NLP, Reinforcement Learning, Large Language Models.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Publications（只放 HumanGenesis） -->
+  <!-- Publications（只保留 HumanGenesis） -->
   <section id="publications">
     <div class="container reveal">
       <h2>Publications</h2>
       <div class="block">
-        <strong>HumanGenesis</strong>: Agent-Based Geometric and Generative Modeling for Synthetic Human Dynamics. 
+        <strong>HumanGenesis</strong>: Agent-Based Geometric and Generative Modeling for Synthetic Human Dynamics.
         (Li, W., <em>Zhang, Z.</em>, Lin, L., &amp; Wang, G., 2025). <em>Submitted to AAAI 2026</em>.
-        <div style="margin-top:8px">
-          <a class="link-pill" href="https://liwq229.github.io/humangenesis" target="_blank" rel="noreferrer">Project Page</a>
-          <a class="link-pill" href="https://arxiv.org/abs/2508.09858" target="_blank" rel="noreferrer">arXiv</a>
+        <div style="margin-top:10px">
+          <a class="btn ghost" href="https://liwq229.github.io/humangenesis" target="_blank" rel="noreferrer">Project Page</a>
+          <a class="btn ghost" href="https://arxiv.org/abs/2508.09858" target="_blank" rel="noreferrer">arXiv</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Practice Experience（纵向逐条） -->
+  <!-- Practice（研究经历：只写 ACD） -->
   <section id="practice">
     <div class="container reveal">
-      <h2>Practice Experience</h2>
-
+      <h2>Practice / Research</h2>
       <div class="block">
-        <strong>Attention-Conditional Diffusion for Video</strong><br/>
-        Injected conditional control via supervised attention for stronger semantic &amp; spatial alignment; 
-        designed a sparse 3D-aware layout with ControlNet and automated annotation to reduce artifacts.
-      </div>
-
-      <div class="block">
-        <strong>Tiny Reasoning Agent (Distillation)</strong><br/>
-        Distillation-enhanced tiny LMs with chain-of-thought and tool-use under ReAct; improves reasoning quality and efficiency.
-      </div>
-
-      <div class="block">
-        <strong>Model-based RL (MPC with CEM)</strong><br/>
-        HalfCheetah experiments show CEM outperforms random shooting in trajectory optimization and stability.
-      </div>
-
-      <div class="block">
-        <strong>Reduce Perplexity for LLaMA-3.2-1B</strong><br/>
-        Continued pretraining on Korean corpus; LoRA fine-tuning and dataset curation; prompting ablations.
-      </div>
-
-      <div class="block">
-        <strong>ReAct Agents & Prompting Strategies</strong><br/>
-        Few-Shot / Self-Ask / Self-Consistency / Self-Refine; ablations on QA and interactive tasks.
+        <div class="row">
+          <div class="left"><strong>2025</strong></div>
+          <div class="right">
+            <strong>Attention-Conditional Diffusion for Video</strong><br/>
+            Injected conditional control via supervised attention for stronger semantic &amp; spatial alignment.
+            Designed a sparse 3D-aware layout with ControlNet and automated annotation to reduce artifacts and improve interpretability.
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Internships（最后） -->
+  <!-- Internships（联想 AI Lab） -->
   <section id="internships">
     <div class="container reveal">
       <h2>Internships</h2>
       <div class="block">
-        <strong>Research Intern — Sun Yat-sen University (SYSU), Vision Lab</strong><br/>
-        Worked on <em>HumanGenesis</em>: agent-based geometric + generative modeling for synthetic human dynamics; 
-        consistent 3D reconstruction and dynamic sequence generation from monocular video.
+        <div class="row">
+          <div class="left"><strong>2024.06 – 2024.08</strong></div>
+          <div class="right">
+            <strong>Research Intern — Lenovo AI Lab</strong><br/>
+            Worked on LLM-driven reasoning &amp; tooling; evaluated prompting, CoT strategies and lightweight finetuning for task performance.
+          </div>
+        </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Projects（LLM/NLP，逐条+时间） -->
+  <section id="projects">
+    <div class="container reveal">
+      <h2>Projects (LLM / NLP)</h2>
+
+      <div class="block">
+        <div class="row">
+          <div class="left"><strong>2025.02 – 2025.04</strong></div>
+          <div class="right">
+            <strong>Tiny Reasoning Agent (Distillation)</strong><br/>
+            Distillation-enhanced tiny LMs with chain-of-thought and tool-use under ReAct; improved reasoning quality and sample efficiency.
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="row">
+          <div class="left"><strong>2024.11 – 2025.01</strong></div>
+          <div class="right">
+            <strong>Reduce Perplexity for LLaMA-3.2-1B</strong><br/>
+            Continued pretraining on Korean corpus; LoRA fine-tuning and dataset curation; prompting ablations.
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="row">
+          <div class="left"><strong>2024.09 – 2024.11</strong></div>
+          <div class="right">
+            <strong>ReAct Agents &amp; Prompting Strategies</strong><br/>
+            Few-Shot / Self-Ask / Self-Consistency / Self-Refine; comprehensive ablations on QA &amp; interactive tasks.
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="row">
+          <div class="left"><strong>2024.07 – 2024.08</strong></div>
+          <div class="right">
+            <strong>CoT vs ToT Experiments</strong><br/>
+            Systematic comparisons on commonsense QA &amp; textual reasoning benchmarks; consistent gains over direct-answer baselines.
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
