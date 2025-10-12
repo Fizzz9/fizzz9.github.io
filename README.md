@@ -1,1 +1,1 @@
-# Zehao Zhang — Academic Portfolio (Demo)
+# Zehao Zhang — Academic Portfolio
