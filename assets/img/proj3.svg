@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+      <defs><linearGradient id="g3" x1="0" x2="1" y1="0" y2="1">
+        <stop offset="0" stop-color="#FFDEE9"/><stop offset="1" stop-color="#B5FFFC"/></linearGradient></defs>
+      <rect width="1200" height="700" fill="url(#g3)"/>
+      <g font-family="Inter,Arial" fill="#1a1a1a" font-size="64" font-weight="700">
+        <text x="60" y="120">Example Project 3</text>
+        <text x="60" y="200" font-size="28" opacity=".9">Homography & Stitching</text></g>
+      <g stroke="rgba(0,0,0,.3)" stroke-width="3" fill="none">
+        <path d="M80,600 L1120,600" />
+        <path d="M80,560 L1120,560" />
+        <path d="M80,520 L1120,520" /></g></svg>

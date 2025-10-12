@@ -1,0 +1,1 @@
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));const y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();
