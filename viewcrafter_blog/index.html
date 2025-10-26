@@ -21,9 +21,12 @@
       font-weight: 600;
     }
 
+    /* bigger title, tighter lines, try to keep it mostly on one line */
     h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
+      font-size: 2.4rem;
+      line-height: 1.22;
+      max-width: 75ch;
+      margin-bottom: 0.75rem;
       text-align: left;
     }
 
@@ -67,7 +70,7 @@
       max-width: 100%;
       border-radius: 10px;
       border: 1px solid #ccc;
-      background: #fff;     /* <-- no black frame */
+      background: #fff;     /* keep white so no black pillars */
     }
 
     figcaption {
@@ -94,11 +97,17 @@
       padding-top: 1rem;
     }
 
+    /* meta header under title */
     .meta {
-      color: #666;
-      font-size: 0.9rem;
+      color: #444;
+      font-size: 1rem;
+      line-height: 1.5;
       margin-bottom: 2rem;
-      line-height: 1.4;
+    }
+
+    .meta-line-strong {
+      font-weight: 600;
+      color: #111;
     }
 
     /* ===== Figure A / Figure B grid styling ===== */
@@ -142,7 +151,7 @@
       object-fit: contain;
       border-radius: 8px;
       border: 1px solid #bbb;
-      background: #fff;    /* <-- no forced black bars */
+      background: #fff;
     }
 
     .cell-caption {
@@ -187,36 +196,38 @@
   <!-- Blog title / meta -->
   <h1>ViewCrafter: Turning a Single Photo Into a Moving Camera Shot</h1>
   <div class="meta">
-    Zehao Zhang (Yonsei University)<br/>
-    Oct 26, 2025<br/>
-    Based on: “ViewCrafter: Taming Video Diffusion Models for High-fidelity Novel View Synthesis,”
-    Wangbo Yu, Jinbo Xing, Li Yuan, Wenbo Hu, Xiaoyu Li, Zhipeng Huang, Xiangjun Gao,
-    Tien-Tsin Wong, Ying Shan, and Yonghong Tian (2024).
+    <div class="meta-line-strong">Zehao Zhang (Yonsei University)</div>
+    <div class="meta-line-strong">Oct 26, 2025</div>
+    <div>
+      Based on: “ViewCrafter: Taming Video Diffusion Models for High-fidelity Novel View Synthesis,”
+      Wangbo Yu, Jinbo Xing, Li Yuan, Wenbo Hu, Xiaoyu Li, Zhipeng Huang, Xiangjun Gao,
+      Tien-Tsin Wong, Ying Shan, and Yonghong Tian (2024).
+    </div>
   </div>
 
   <!-- ======================== SECTION 1 ======================== -->
   <h2>1. What problem is ViewCrafter solving?</h2>
 
   <p>
-    Imagine you only have one photo of a flower. You did <i>not</i> walk around it.
-    You did <i>not</i> record video. But you still want a dramatic “camera fly-around,”
-    like a commercial shot where the camera smoothly glides past the petals.
+    Pretend you’re making a commercial. You took one nice picture of a flower. Now your boss says:
+    “Cool. Can you make a dramatic 4-second shot where the camera glides around it like a nature
+    documentary?” But you didn’t shoot any video. You never walked around the flower. You only
+    have that <b>one</b> picture.
   </p>
 
   <p>
-    In normal 3D vision, that’s basically cheating. A single photo doesn’t tell you
-    what the other side looks like, how far objects are, or how things move if the
-    camera circles around. Classical 3D reconstruction methods (NeRF, Gaussian
-    splatting, etc.) usually assume you already collected <b>many</b> views from
-    <b>many</b> angles.
+    From a computer vision point of view, that request is rude. A single photo normally cannot
+    tell you what happens if you slide the camera left, tilt down, or orbit behind the object.
+    Classic 3D methods (NeRF, Gaussian Splatting, etc.) usually want
+    <b>many</b> views from <b>many</b> angles so they can actually triangulate depth.
   </p>
 
   <p>
-    ViewCrafter’s job is the nightmare case:
-    <b>Generate a realistic camera motion video from only 1–2 input images,
-    and actually follow a controllable 3D camera path (full 6-DoF).</b>
-    Not just “invent new frames,” but “move the camera through the scene
-    as if it were really there.”
+    ViewCrafter’s mission is the nightmare version:  
+    <b>Generate a realistic, smooth, controllable camera move video from only 1–2 input images,
+    while actually respecting a 3D camera trajectory (full 6-DoF motion).</b>
+    That means it’s not just “make new frames,” it’s “pretend we really moved a physical camera
+    through this scene.”
   </p>
 
   <!-- ===== Figure A: single-view demos ===== -->
@@ -246,7 +257,7 @@
       <!-- Row 2: statue / building -->
       <div class="grid-cell">
         <img src="../assets/viewcrafter/wst.png" alt="single input view (statue/building scene)">
-        <div class="cell-caption">Statue & building<br/>Again, one captured view.</div>
+        <div class="cell-caption">Statue &amp; building<br/>Again, one captured view.</div>
       </div>
       <div class="grid-cell">
         <img src="../assets/viewcrafter/cwst.gif" alt="camera path (statue scene)">
@@ -281,9 +292,10 @@
   </figure>
 
   <p>
-    When we have two photos of the same scene, things get even better.
-    Two inputs give a stronger guess of the 3D layout, so the motion is cleaner,
-    surfaces stay stable, and fewer weird holes appear.
+    If you’re allowed two photos of the scene (e.g., you stepped to the side and snapped
+    a second angle), things get even better. With two distinct viewpoints, ViewCrafter
+    can build a stronger mental model of the 3D layout, which means fewer holes, more stable
+    textures, and motion that feels less “melty.”
   </p>
 
   <!-- ===== Figure B: two-view demos ===== -->
@@ -343,7 +355,7 @@
     <figcaption class="big-figcaption">
       Figure B. Two casual views → smoother, more complete motion.  
       ViewCrafter fuses both inputs into a consistent internal 3D guess, then “films”
-      a camera move that travels between/around them. (From Yu et al., 2024 demos.)
+      a camera move that travels between and around them. (From Yu et al., 2024 demos.)
     </figcaption>
   </figure>
 
@@ -352,53 +364,71 @@
   <h2>2. How does ViewCrafter actually work?</h2>
 
   <p>
-    High-level recipe in plain English:
-    <b>Guess a rough 3D world → plan a camera move → predict what each
-    camera position should see → ask a video diffusion model to clean it up.</b>
+    The high-level recipe is surprisingly understandable:
+    <b>Guess a rough 3D world → plan a camera move → render what that camera
+    “should” see → ask a video diffusion model to clean it up.</b>
+    Underneath, each of those bold words hides real research.
   </p>
 
   <h3>Step 1. Reconstruct a rough point cloud</h3>
   <p>
-    ViewCrafter first tries to infer 3D structure from just 1–2 images.
+    First, ViewCrafter tries to reverse-engineer some geometry from only 1–2 images.
     It estimates dense depth / stereo-like correspondences and recovers:
   </p>
   <ul>
-    <li>a <b>colored point cloud</b> (lots of 3D points with RGB color), and</li>
-    <li>an approximate <b>camera pose</b> (where the camera is in space and where it is looking).</li>
+    <li>a <b>colored point cloud</b> (lots of 3D points in space, each with color), and</li>
+    <li>an approximate <b>camera pose</b> (where the original camera was, and which way it faced).</li>
   </ul>
   <p>
-    With two input views this is closer to true multi-view stereo.  
-    With a single view, it uses learned priors to “fake” stereo and guess depth.
-    The result is incomplete and noisy — missing chunks, floating pieces —
-    but it encodes useful geometry: “the statue is in front of the building,”
-    “the train is long in this direction,” etc.
+    With two input views, this is closer to standard multi-view stereo:
+    you actually saw the object from different angles, so it can triangulate.
+    With a single view, it has to “hallucinate” plausible depth based on learned priors
+    (basically: it has seen a lot of similar scenes during training and guesses what’s 3D).
+  </p>
+  <p>
+    Is the point cloud perfect? No. It’s messy, full of holes, and missing backsides.
+    But it already encodes crucial spatial structure like
+    “the statue stands in front of the building,”
+    “this car is long along this axis,” etc.
   </p>
 
   <h3>Step 2. Plan a 6-DoF camera trajectory</h3>
   <p>
-    Now it decides how a <b>virtual camera</b> will move: orbit the statue,
-    slide past the train, dolly in toward the flower, look around a room.
-    This trajectory is full 6-DoF (3D translation + 3D rotation over time).
-    So instead of “make something cool,” it’s “shoot this exact camera path.”
+    Next, ViewCrafter decides how a <b>virtual camera</b> will move.
+    Orbit around a statue? Dolly toward the flower? Slide past the train?
+    This trajectory is full 6-DoF (3D translation + 3D rotation over time),
+    so it’s not just “zoom in,” it’s “move like a real handheld or drone.”
+  </p>
+  <p>
+    This is already different from many “animate my photo” apps, which just
+    warp the pixels in place. ViewCrafter is literally planning a <i>camera path
+    in 3D space</i>.
   </p>
 
   <h3>Step 3. Render the point cloud from that path</h3>
   <p>
-    For each pose on that path, ViewCrafter renders the rough point cloud from
-    that exact viewpoint. Those renders look ugly by themselves — holes,
-    missing walls, broken backgrounds — but they’re <b>geometrically aligned</b>
-    with the intended camera motion. They basically answer:
-    “If the camera were here, what would we <i>roughly</i> see?”
+    For every step along that path, ViewCrafter renders the rough point cloud
+    from that exact viewpoint. These renders usually look terrible by themselves:
+    background holes, floating chunks, torn edges.
+  </p>
+  <p>
+    But here’s the trick: those ugly renders are <b>geometrically aligned</b>
+    to the intended motion. They say, “If the camera were truly here in 3D,
+    this is approximately what we’d see.”
   </p>
 
   <h3>Step 4. Point-conditioned video diffusion</h3>
   <p>
-    A video diffusion model then “beautifies” those rough renders into
-    realistic, temporally consistent frames.  
-    Key idea: the diffusion model is not free to drift.  
-    It is <b>conditioned</b> on the point-cloud renders tied to each 6-DoF pose,
-    so the final video actually follows the planned path instead of wobbling
-    or teleporting.
+    Now the generative model enters. A video diffusion model takes those rough,
+    holey renders and “beautifies” them into realistic, temporally consistent
+    frames. It also conditions on reference appearance features (CLIP-style
+    encoders etc.) so colors, textures, lighting, style, etc. stay consistent
+    with the original input photo(s).
+  </p>
+  <p>
+    The important part: the diffusion model is <b>not free to just freestyle</b>.
+    It is forced to respect the geometry from Step 3. So the final video follows
+    the planned 6-DoF path instead of drifting or sliding randomly.
   </p>
 
   <figure class="wide-figure">
@@ -415,16 +445,16 @@
 
   <h3>Step 5. Iterate like an explorer (“next-best view”)</h3>
   <p>
-    One fly-around only covers part of the world. So ViewCrafter asks:
-    “Which areas are still missing?” It then plans a <b>next-best-view</b>
-    trajectory that would reveal new surfaces, generates another clip for that
-    path, and merges the new frames back into the global scene understanding.
+    One little orbit only covers part of the world. So ViewCrafter repeats:
+    it asks “Which areas are still missing?” and then plans a
+    <b>next-best-view</b> path that would reveal those missing surfaces.
+    Then it generates another short clip for that new path and fuses
+    the new frames back into its global understanding.
   </p>
-
   <p>
-    Over multiple rounds, it’s basically acting like a tiny autonomous
-    cameraman / drone: explore → update map → explore → update map.
-    This is how it gradually fills in a whole scene from extremely limited input.
+    After several rounds, it behaves like a tiny autonomous cameraman / drone:
+    scout → shoot → update the map → scout again. That loop is how it slowly
+    “discovers” a whole scene from almost nothing.
   </p>
 
   <figure class="wide-figure">
@@ -432,9 +462,9 @@
          alt="Planned trajectory vs automatic next-best-view exploration." />
     <figcaption>
       Fig 2 (Paper Fig.8). Next-best-view planning.
-      Instead of sticking to one pre-fixed path, ViewCrafter actively plans new
-      camera motions that expose unseen regions. That produces a denser,
-      more complete reconstruction from very few initial images.
+      Instead of using one fixed camera path, ViewCrafter actively plans new motions
+      to expose unseen regions. This gradually fills in geometry, even starting from
+      extremely limited input.
     </figcaption>
   </figure>
 
@@ -444,18 +474,17 @@
 
   <h3>3.1 A scene you can actually explore in 3D</h3>
   <p>
-    After several exploration loops, the system has many consistent views and
-    a much better idea of geometry. At that point, ViewCrafter uses those
-    synthesized “multi-view” frames to supervise a fast representation
-    called <b>3D Gaussian Splatting (3D-GS)</b>.
+    After multiple exploration loops, ViewCrafter has (1) a richer, more complete
+    point cloud and (2) many synthesized viewpoints that are mutually consistent.
+    At this point, it can train a fast 3D representation called
+    <b>3D Gaussian Splatting (3D-GS)</b>.
   </p>
-
   <p>
-    3D-GS is a recent real-time view synthesis method: it represents the scene
-    with a cloud of tiny colored 3D Gaussians instead of polygons.
-    Because ViewCrafter can now generate many consistent viewpoints,
-    it can <b>train</b> a 3D-GS model of your scene — meaning afterward
-    you can literally fly a virtual camera anywhere in real time.
+    3D-GS represents the scene as a big cloud of tiny colored 3D Gaussians instead
+    of classic polygons. The cool part: 3D-GS renders in real time. So once
+    ViewCrafter has generated enough consistent novel views, you can supervise
+    a 3D-GS model of your scene — and <b>now you can freely fly a virtual camera
+    anywhere you want</b>.
   </p>
 
   <figure class="wide-figure">
@@ -463,24 +492,25 @@
          alt="From sparse inputs to 3D Gaussian Splatting supervision." />
     <figcaption>
       Fig 3 (Paper Fig.2). From sparse inputs → iterative completion → 3D-GS.
-      ViewCrafter repeatedly synthesizes novel views and fuses them into a more
-      complete point cloud. Those views then supervise a 3D Gaussian Splatting
-      model, giving you an explorable 3D scene.
+      ViewCrafter keeps generating and fusing novel views until it has enough to
+      supervise a 3D Gaussian Splatting model. After that, you basically own
+      an explorable 3D scene.
     </figcaption>
   </figure>
 
-  <h3>3.2 Text → image → multi-view → 3D-like walkthrough</h3>
+  <h3>3.2 Text → image → multi-view → mini world</h3>
   <p>
-    You can even start from imagination.  
-    Step 1: Generate one fantasy reference image from text
-    (“an astronaut in space on a chair of clouds,” “an anime castle,” etc.).  
-    Step 2: Treat that single synthetic frame as if it were a “real photo.”  
-    Step 3: Run ViewCrafter to walk a virtual camera around it.
+    There’s a sci-fi twist: you don’t even need real photos.  
+    Step 1: write a text prompt (“an astronaut in space on a chair made of clouds,”
+    “an anime-style castle,” “ice cream with orange slices,” etc.).  
+    Step 2: use an image generator to get <i>one</i> high-quality still image.  
+    Step 3: treat that single generated picture as if it were a “real photo” and
+    run ViewCrafter on it.
   </p>
-
   <p>
-    In other words, prompt → still image → ViewCrafter → mini 3D world you
-    can “film.” That’s getting very close to text-to-world.
+    The result? ViewCrafter will “walk a camera” around a scene that never existed,
+    giving you consistent new views of your imagination. That’s basically
+    text → still image → multi-view → proto-3D.
   </p>
 
   <figure class="wide-figure">
@@ -488,24 +518,23 @@
          alt="Text-to-3D style generation: astronaut, anime castle, blooming flower, dessert." />
     <figcaption>
       Fig 4 (Paper Fig.9). Text-to-3D style results.
-      From just one AI-generated reference image (top-left of each row),
-      ViewCrafter produces consistent new viewpoints, as if you’re moving a
-      camera around an imagined object or scene.
+      Starting from just one AI-generated reference image (left side of each row),
+      ViewCrafter produces multiple consistent viewpoints, as if you’re moving a
+      camera around an imaginary object or environment.
     </figcaption>
   </figure>
 
   <h3>3.3 Pose accuracy: it follows the path you asked for</h3>
   <p>
-    A big problem with many “video-from-image” models is that they drift.
-    You say “pan left,” they just hallucinate some random floaty motion.
+    A common failure mode for “animate my photo” models is drift:
+    you ask for “pan left,” but the output sort of wobbles in a dreamlike way.
   </p>
-
   <p>
-    ViewCrafter is different. Because it is conditioned on point-cloud renders
-    from explicit poses, its generated video actually obeys the intended
-    6-DoF trajectory. The paper shows comparisons where the predicted camera
-    pose matches the planned path much more tightly than baselines that use
-    Plücker-style camera models.
+    ViewCrafter is different. Because it conditions the diffusion model
+    on explicit point-cloud renders for each planned pose, the final frames
+    really obey the 6-DoF path. The authors show that the recovered camera
+    trajectory matches the intended path more tightly than baselines
+    such as Plücker-model camera parameterizations.
   </p>
 
   <figure class="wide-figure">
@@ -513,9 +542,9 @@
          alt="Pose accuracy comparison: ours vs Plücker model." />
     <figcaption>
       Fig 5 (Paper Fig.7). Pose alignment.
-      The estimated camera pose (blue) stays close to ground truth vs. a baseline
-      method where the camera drifts. So ViewCrafter is not only making
-      pretty frames — it’s actually “flying the camera where you told it to go.”
+      The estimated camera pose (blue) stays close to ground truth versus a baseline
+      that drifts. So ViewCrafter doesn’t just <i>look</i> like a camera move —
+      it’s actually following the path you asked for.
     </figcaption>
   </figure>
 
@@ -524,12 +553,16 @@
   <h2>4. How good is it compared to previous work?</h2>
 
   <p>
-    The authors compare ViewCrafter to strong baselines:
-    LucidDreamer, ZeroNVS, MotionCtrl, etc.  
-    Visual examples show that the baselines often blur details, bend geometry,
-    or flicker when the viewpoint changes a lot.  
-    ViewCrafter keeps texture sharper, keeps objects structurally consistent,
-    and matches the intended camera motion better.
+    The paper compares ViewCrafter to strong baselines like LucidDreamer, ZeroNVS,
+    and MotionCtrl. The side-by-side samples are kind of brutal:
+    competing systems often smear textures, twist object shapes,
+    or flicker between frames when the viewpoint changes a lot.
+  </p>
+
+  <p>
+    ViewCrafter’s results stay sharper, the geometry looks more solid
+    (a chair stays a chair instead of melting), and the motion better matches what
+    you actually asked the camera to do.
   </p>
 
   <figure class="wide-figure">
@@ -537,19 +570,19 @@
          alt="Qualitative comparisons with LucidDreamer, ZeroNVS, MotionCtrl." />
     <figcaption>
       Fig 6 (Paper Fig.3). Qualitative comparison.
-      Rows: scenes like statues, trains, indoor rooms, toys, etc.
-      Columns: existing methods vs. ViewCrafter vs. ground truth.
-      Baselines often smear detail or warp shapes; ViewCrafter looks more
-      stable and closer to the real view.
+      Rows: statues, trains, indoor rooms, toys, etc.
+      Columns: baseline methods vs. ViewCrafter vs. ground truth.
+      Baselines often blur or warp; ViewCrafter stays structurally consistent
+      and closer to reality.
     </figcaption>
   </figure>
 
   <p>
-    It’s not just visual. Quantitatively, ViewCrafter reports better perceptual
-    quality (LPIPS↓, FID↓), better fidelity (PSNR↑, SSIM↑), and lower camera
-    pose error (R<sub>dist</sub>, T<sub>dist</sub> ↓) across standard datasets
-    like Tanks-and-Temples, RealEstate10K, and CO3D.
-    Translation: not only prettier, but measurably closer to the real world.
+    And it’s not just visual. Quantitatively, ViewCrafter reports better perceptual
+    quality (LPIPS↓, FID↓), better fidelity (PSNR↑, SSIM↑), and lower camera pose
+    error (R<sub>dist</sub>, T<sub>dist</sub> ↓) across standard datasets like
+    Tanks-and-Temples, RealEstate10K, and CO3D.
+    Translation: it’s objectively closer to the real scene, not only “cool-looking.”
   </p>
 
   <figure class="wide-figure">
@@ -557,9 +590,10 @@
          alt="Quantitative table across Tanks-and-Temples, RealEstate10K, CO3D." />
     <figcaption>
       Fig 7 (Paper Table I / II). Quantitative results.
-      ViewCrafter outperforms prior methods on visual similarity metrics
-      (LPIPS, FID), reconstruction fidelity (PSNR, SSIM), and camera pose
-      accuracy (R<sub>dist</sub>, T<sub>dist</sub>).
+      ViewCrafter outperforms prior methods on visual similarity (LPIPS, FID),
+      reconstruction fidelity (PSNR, SSIM), and camera pose accuracy
+      (R<sub>dist</sub>, T<sub>dist</sub>). In plain English: sharper, more faithful,
+      more stable.
     </figcaption>
   </figure>
 
@@ -568,37 +602,40 @@
   <h2>5. Where does it still fail?</h2>
 
   <p>
-    The paper is honest: this is not magic. There are still clear failure modes.
+    The authors are very honest: this is not magic, not a full digital twin
+    of the universe. There are clear failure modes.
   </p>
 
   <ul>
     <li>
       <b>Extreme unseen viewpoints are hard.</b><br/>
-      If you only ever saw the back of an object and then demand a perfect
-      close-up of the front, the model has to hallucinate. It can guess,
-      but it’s still guessing.
+      If you only saw the back of an object and demand a crystal-clear
+      slow-motion close-up of the front, the system must hallucinate.
+      It can guess, but sometimes it guesses wrong.
     </li>
 
     <li>
       <b>Garbage-in, garbage-out.</b><br/>
-      ViewCrafter can tolerate noisy point clouds, but if the initial geometry
-      is completely wrong, the generated views inherit that error and may
-      “repair” it in a way that is still geometrically impossible.
+      The pipeline can tolerate noisy geometry,
+      but if the initial point cloud is nonsense (depth is totally off,
+      surfaces floating in space), that bad guess leaks into the final video.
     </li>
 
     <li>
       <b>Compute cost.</b><br/>
-      A video diffusion model is heavy. Generating a full clip is not “free.”
-      For interactive navigation they rely on converting the final result
-      into 3D-GS, which <i>is</i> fast — but getting there still costs time.
+      Video diffusion is expensive.
+      Generating a convincing clip is still way heavier than just “run a filter.”
+      Their trick is: once you’ve generated enough views, convert the result to
+      3D-GS, which <i>is</i> real-time. But getting there costs GPU.
     </li>
   </ul>
 
   <p>
-    The figure below shows how rough the raw point-cloud renders can look
-    (holes, tearing, missing walls), and how the diffusion model “heals”
-    them into plausible images. This is powerful, but it also shows that in
-    totally unseen regions the model is inventing detail.
+    The figure below is basically “before vs. after makeup.” The top row shows the
+    raw point-cloud renders from new viewpoints: holes, tearing, missing regions.
+    The bottom row shows the diffusion model’s cleaned-up frames: smooth,
+    filled-in surfaces. That’s great — but remember, in places the camera truly
+    never saw, it is inventing.
   </p>
 
   <figure class="wide-figure">
@@ -606,10 +643,10 @@
          alt="Point cloud renders vs diffusion repaired frames." />
     <figcaption>
       Fig 8 (Paper Fig.5 / robustness discussion).
-      Top row: direct point-cloud renders from new viewpoints — lots of gaps.
-      Bottom row: ViewCrafter’s diffusion output fills in those gaps with
-      coherent textures. Great when it’s right, but in never-seen areas,
-      it is still guessing.
+      Top row: direct point-cloud renders from novel viewpoints, full of gaps.
+      Bottom row: ViewCrafter’s diffusion output fills those gaps with plausible
+      texture. This is powerful, but also a reminder: in never-observed regions,
+      it’s still guesswork.
     </figcaption>
   </figure>
 
@@ -618,13 +655,13 @@
   <h2>6. Mini technical recap</h2>
 
   <p>
-    If we compress the whole method into a pipeline, it looks like this:
+    If we condense everything down to bullet points, the pipeline is:
   </p>
 
   <ol style="padding-left:1.25rem;">
     <li>
-      <b>Sparse input:</b> 1–2 reference images of a real scene (or even a
-      single AI-generated image from a text prompt).
+      <b>Sparse input:</b> 1–2 reference images of a real scene
+      (or even one AI-generated “fake photo” from a text prompt).
     </li>
 
     <li>
@@ -633,77 +670,76 @@
     </li>
 
     <li>
-      <b>Camera path planning:</b> decide a future 6-DoF camera trajectory
-      (orbit, dolly, fly-by, walk-around).  
-      Later, decide <i>next-best view</i> paths to uncover missing regions.
+      <b>Camera path planning:</b> choose a future 6-DoF camera trajectory
+      (orbit, dolly, fly-by, walk-around). Later, choose <i>next-best-view</i>
+      paths to uncover unseen regions.
     </li>
 
     <li>
-      <b>Point-cloud rendering:</b> render the rough point cloud from every
-      pose on that path. These frames are geometrically aligned but ugly.
+      <b>Point-cloud rendering:</b> render the rough point cloud from every pose
+      on that path. These previews are ugly but geometrically correct.
     </li>
 
     <li>
-      <b>Point-conditioned video diffusion:</b> feed those renders + reference
-      appearance features (CLIP-style conditioning etc.) into a video diffusion
-      model to synthesize clean, consistent video frames that obey the planned
-      camera motion.
+      <b>Point-conditioned video diffusion:</b> feed those previews plus
+      learned appearance features into a video diffusion model, which produces
+      clean, temporally consistent frames that follow the pose.
     </li>
 
     <li>
-      <b>Iterative fusion:</b> add newly generated views back into the global
-      scene understanding, improving coverage and consistency.
+      <b>Iterative fusion:</b> add the new synthetic views back into the global
+      scene model, improving coverage and consistency.
     </li>
 
     <li>
-      <b>3D Gaussian Splatting supervision:</b> use the accumulated multi-view
-      frames to supervise a 3D-GS model, so you end with an explorable
-      real-time scene.
+      <b>3D Gaussian Splatting supervision:</b> once you’ve got enough reliable,
+      multi-view frames, train a 3D-GS model so you end up with an explorable,
+      real-time 3D scene.
     </li>
   </ol>
 
   <p>
-    In short: ViewCrafter glues together geometry (point clouds + camera poses),
-    planning (where to move the camera next), and generative diffusion
-    (fill in the pixels) into one loop that acts almost like an autonomous
-    filmmaker for 3D scenes.
+    In one sentence:
+    <b>ViewCrafter glues geometry (point clouds + poses), planning (where to move next),
+    and generative diffusion (fill in pixels) into an automated mini film crew
+    that builds a world from almost nothing.</b>
   </p>
 
 
   <!-- ======================== SECTION 7 ======================== -->
-  <h2>7. Why this work matters (and what’s next)</h2>
+  <h2>7. Why this work matters</h2>
 
   <p>
-    The coolest part of ViewCrafter, to me, is that it treats a single image
-    not as “a picture,” but as “the first keyframe of a world I can now explore.”
-    That mental shift is huge. Instead of just upscaling or animating textures,
-    the system behaves like a little robot cameraman: it builds a rough 3D map,
-    plans where to go next, and keeps shooting.
+    The coolest mental shift in ViewCrafter is this:
+    a single photo is no longer “just a picture.”
+    It’s <i>the first keyframe of a world.</i>
+    The system treats that photo like step zero of a scene it can now explore,
+    film, and eventually convert into a navigable 3D model.
   </p>
 
   <p>
-    Technically, the key trick is using geometry as a contract.  
-    The model doesn’t just hallucinate motion. It says:
-    “Here is a proposed 6-DoF path. Here is the point-cloud render for each pose.
-    Please make these look real.”  
-    That contract is why the final video actually respects camera control,
-    and why you can later supervise a 3D Gaussian Splatting model.
+    Technically, the key trick is using geometry as a contract.
+    Instead of asking a diffusion model, “Please move the camera nicely,”
+    ViewCrafter says, “Here’s the exact 6-DoF path. Here’s a rough point-cloud
+    render for each pose. Make <i>this</i> look real.”
+    That contract is why the final video actually respects camera control
+    and why you can later supervise a 3D-GS model with confidence.
   </p>
 
   <p>
-    Practically, this hints at something close to text-to-world:
-    type a prompt → get one nice image → automatically obtain multiple,
-    consistent new views → end up with something you can fly through.
-    That used to be science fiction. Now it’s starting to look like a product
-    pipeline for VR/AR content, robotics simulation, or real-estate previews.
+    Practically, this is getting dangerously close to text-to-world:
+    type a prompt → generate one nice still → ViewCrafter “walks a camera”
+    around that imagined place → you end up with something explorable.
+    That unlocks obvious applications in VR/AR content, robotics simulation,
+    previsualizing movie shots, or even real-estate previews without doing
+    a full scan.
   </p>
 
   <p>
-    There are still limits — hallucination in unseen regions, and the cost
-    of diffusion inference — but the direction is clear:
-    we are moving from “generate a cool frame” to “generate a <b>navigable place</b>.”
-    For creators, that means more cinematic freedom.  
-    For robotics / AR, it means fast scene bootstrapping from almost nothing.
+    There are still limits — hallucination in totally unseen regions,
+    and heavy GPU cost — but the direction is clear:
+    we’re moving from “generate a cool frame” to
+    <b>“generate a navigable place you can shoot inside.”</b>
   </p>
 
 
@@ -725,11 +761,6 @@
       qualitative comparisons (Fig.6),
       quantitative metrics (Fig.7),
       and robustness / failure cases (Fig.8).
-    </p>
-    <p class="small-note">
-      This blog-style writeup was prepared for CAS2105 Homework 3.
-      Requirement: make the paper accessible, include visuals, publish a public link,
-      and also provide a PDF version.
     </p>
   </footer>
 
