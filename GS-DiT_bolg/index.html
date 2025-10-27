@@ -108,14 +108,72 @@
       color: #111;
     }
 
-    /* reusable wide figure wrapper */
+    /* boxed comparison / grid sections */
+    .grid-wrapper {
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 1rem;
+      background: #fafafa;
+      margin: 2rem 0;
+    }
+
+    .grid-title-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 0.75rem;
+    }
+
+    .grid-table {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      row-gap: 1.5rem;
+      column-gap: 1rem;
+      align-items: start;
+      text-align: center;
+    }
+
+    .grid-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .grid-cell img,
+    .grid-cell video {
+      width: 100%;
+      max-height: 180px;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid #bbb;
+      background: #fff;
+    }
+
+    .cell-caption {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 0.4rem;
+      line-height: 1.3;
+    }
+
+    .big-figcaption {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.4;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
     .wide-figure {
       max-width: 850px;
       margin-left: auto;
       margin-right: auto;
     }
 
-    /* video demo blocks */
+    /* side-by-side / 4-up video demos */
     .video-demo-block {
       margin: 2rem 0;
     }
@@ -160,21 +218,29 @@
       color: #555;
       margin-top: 0.5rem;
     }
+
+    .video-explainer {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.4;
+      text-align: center;
+      max-width: 800px;
+      margin: 1rem auto 2rem;
+    }
   </style>
 </head>
 <body>
 
-  <!-- =============== PAPER TITLE BLOCK =============== -->
+  <!-- Paper title figure -->
   <figure style="text-align:center; margin: 0 0 2rem 0;">
     <img src="../assets/GS-DiT/title.png"
          alt="Paper title: GS-DiT: Advancing Video Generation with Pseudo 4D Gaussian Fields through Efficient Dense 3D Point Tracking" />
     <figcaption style="font-size:0.9rem; color:#666; margin-top:0.5rem;">
-      GS-DiT (Bian et al., 2025).  
-      Goal: take a normal single video, understand it in 3D + time, then let us shoot new camera motions, edit objects, even get multiple 'virtual cameras' from that one clip.
+      GS-DiT (Bian et al., 2025). Video generation with camera control, built on 3D point tracking and pseudo 4D Gaussian fields.
     </figcaption>
   </figure>
 
-  <!-- =============== BLOG HEADER META =============== -->
+  <!-- Blog title / meta -->
   <h1>GS-DiT: Turning a Normal Video into a Controllable 3D Camera Shot</h1>
   <div class="meta">
     <div class="meta-line-strong">Zehao Zhang (Yonsei University)</div>
@@ -185,266 +251,237 @@
     </div>
   </div>
 
-  <!-- =============== SECTION 0 =============== -->
-  <h2>0. Why should we care?</h2>
+  <!-- ======================== SECTION 0 ======================== -->
+  <h2>0. Why do we care about this paper?</h2>
 
   <p>
-    Think about this very real situation: you shoot a short clip with your phone.
-    The camera is basically locked — maybe you just hold it in front of your dog at the beach.
-    Later you wish: “I want a smooth orbit around the dog,”
-    “can I get a dramatic dolly zoom?”, or even
-    “give me four angles at once like a movie set.”
-    But you didn’t film those shots. You have only <b>one</b> boring clip.
+    Imagine you record a short clip with your phone. The camera doesn’t move much.
+    It’s just a normal “stand there and film” moment. But later you think:
+    “I wish I had a nice orbit shot, or a dramatic dolly zoom, or even multiple camera angles,
+    like a movie set.” The problem: you didn’t shoot any of that. You only have one boring clip.
   </p>
 
   <p>
-    GS-DiT says: you <em>can</em> still get those shots.
-    From a single video, it can:
+    GS-DiT’s message is basically: <b>we can still get those shots</b>.
+    We can create new camera motion after the fact. We can also edit an object in the scene
+    (change how it looks) without ruining the rest of the video. We can even produce
+    several different “virtual camera” versions from the same clip — like you had
+    four cameras rolling, not one.
   </p>
 
-  <ul>
-    <li><b>Move the virtual camera</b> in 3D (pan, tilt, orbit, crane, dolly zoom).</li>
-    <li><b>Edit objects</b> in the scene while keeping everything else realistic.</li>
-    <li><b>Create multiple camera trajectories</b> for the <i>same</i> moment,
-        like you had several cameras filming in parallel.</li>
-  </ul>
-
   <p>
-    In other words: “shoot once, direct later.”
+    This is only possible because GS-DiT tries to understand the clip as <b>3D over time</b>,
+    not just as flat 2D frames. It builds what the authors call a <i>pseudo 4D Gaussian field</i>:
+    roughly, a lightweight scene model in 3D that also changes over time (the 4th “D” is time).
+    With that, the system can say, “OK, if I moved the camera here instead, what would I see?”
+    and then generate a realistic video of that imaginary move.
   </p>
 
-  <figure class="wide-figure">
-    <video controls src="../assets/GS-DiT/corgi.mov"></video>
-    <figcaption>
-      Project teaser (official GS-DiT demo).  
-      One cute corgi-on-the-beach clip becomes many different cinematic views.
-      We did not physically fly a drone around the dog.  
-      GS-DiT is inventing those camera paths while keeping the dog, towel, and beach consistent.
-      (Bian et al., 2025)
-    </figcaption>
-  </figure>
+  <!-- A little hero demo from project page -->
+  <div class="video-demo-block">
+    <div class="video-demo-title">One input video → multiple controlled views</div>
+    <div class="video-row-2">
+      <div class="video-col" style="grid-column: 1 / span 2; max-width:600px;">
+        <video controls src="../assets/GS-DiT/corgi.mov"></video>
+        <div class="video-label">
+          Project teaser (corgi scene). One handheld-style phone video.  
+          GS-DiT produces several different camera angles / moves from that same clip.
+        </div>
+      </div>
+    </div>
+    <p class="video-explainer">
+      The “corgi on the beach with sunglasses” demo from the official project page:
+      same dog, same moment, but different camera paths and viewpoints, all synthesized.
+      This is the cinematic dream — shoot once, direct later.
+    </p>
+  </div>
+
+  <!-- ======================== SECTION 1 ======================== -->
+  <h2>1. Quick background: What is a DiT and why is video hard?</h2>
 
   <p>
-    This is different from “just upscale my video” or “add a filter.”
-    GS-DiT tries to <b>understand the scene as 3D over time</b>.
-    That lets it generate <i>new</i> viewpoints that feel like real camera motion,
-    not just 2D warping.
+    DiT stands for <b>Diffusion Transformer</b>.  
+    You’ve probably seen diffusion models like Stable Diffusion for images:
+    they start from random noise and gradually “denoise” into an image.
   </p>
 
-  <!-- =============== SECTION 1 =============== -->
-  <h2>1. Quick background: what is a DiT, and why isn’t plain DiT enough?</h2>
-
   <p>
-    DiT stands for <b>Diffusion Transformer</b> — basically a diffusion model
-    where the denoising network is a Transformer instead of a U-Net
-    (see the “DiT: Scalable Diffusion Models with Transformers” line of work, 2022).
-    A vanilla DiT takes a noisy latent (an image or a short video clip in latent space),
-    runs a stack of Transformer blocks with attention, and gradually predicts how
-    to remove the noise step by step.
+    A standard DiT does that denoising using a Transformer backbone instead of a U-Net.
+    It treats the noisy input (image, or even video frames in latent space) as a sequence
+    of tokens, runs self-attention, and predicts how to remove noise step-by-step.
+    You can also condition it on things like text (“a panda eating bamboo”),
+    style tags, class labels, etc.  
+    The original DiT formulation is described in work like “DiT: Diffusion Models with
+    Transformers,” Peebles & Xie (2022) [arXiv:2212.09748].
   </p>
 
   <figure class="wide-figure">
     <img src="../assets/GS-DiT/dit.png"
-         alt="Typical Diffusion Transformer (DiT) block: tokens from a noised latent go through self-attention, MLP, normalization, conditioning, etc." />
+         alt="Standard DiT block structure (Transformer-style diffusion denoiser with conditioning)." />
     <figcaption>
-      A typical Diffusion Transformer (DiT).  
-      You encode frames into latent tokens, add noise, then a Transformer block repeatedly
-      denoises those tokens using attention and MLP layers.  
-      This works great for generating new images or short videos from prompts,
-      but “plain” DiT does not actually know real 3D camera geometry.
-      (Diagram based on DiT-style architectures, arXiv:2212.09748)
+      Classic Diffusion Transformer (DiT).  
+      Noise latents are turned into tokens, passed through Transformer blocks
+      (self-attention, MLP, layer norms, conditioning), and progressively denoised.
+      This works well for generating pretty frames.  
+      But a vanilla DiT does <b>not</b> really know 3D geometry or the true camera pose.
+      (Adapted from Peebles & Xie, 2022)
     </figcaption>
   </figure>
 
   <p>
-    Here’s the problem: a standard DiT mostly sees frames as 2D grids.
-    Even if you tell it “tilt the camera down,” it doesn’t truly know where
-    “down in 3D space” is.  
-    It might just squash/stretch pixels to imitate motion instead of simulating
-    a physical camera moving through a 3D scene.
+    Why is that a problem for controllable video?  
+    Because if you say “move the camera 20 cm to the left,” a plain DiT has no real idea
+    what “20 cm” means in 3D space. It only knows pixels.  
+    So it might just warp the image instead of simulating an actual camera motion.
   </p>
 
   <p>
-    GS-DiT’s main contribution is: give the diffusion model <b>actual 3D+time structure</b>
-    from the input video, so it can render from <i>new</i> camera poses like a real scene.
+    GS-DiT’s big promise is: “We’ll give the DiT an actual sense of 3D motion.”
   </p>
 
-  <!-- =============== SECTION 2 =============== -->
+  <!-- ======================== SECTION 2 ======================== -->
   <h2>2. Core idea of GS-DiT</h2>
 
   <p>
-    The paper combines two key ingredients:
+    GS-DiT injects 3D understanding into the diffusion pipeline using two key pieces:
   </p>
 
   <ul>
     <li>
-      <b>Dense 3D point tracking.</b><br/>
-      Instead of just tracking pixels in 2D, GS-DiT tracks a lot of points in <i>3D</i>
-      across the whole video. For each little patch of the scene,
-      it estimates “this physical point is here in 3D at frame 1, here at frame 2, …”.
-      So we start to know the scene layout and how it moves.
+      <b>Dense 3D point tracking</b>:  
+      Track thousands of points across the video, and estimate each point’s 3D position
+      over time. So instead of just “this pixel moved,” we get
+      “this physical point in the world moved from (x,y,z) to (x',y',z').”
     </li>
 
     <li>
-      <b>Pseudo 4D Gaussian field (3D + time).</b><br/>
-      Using those tracked 3D points plus estimated depth,
-      GS-DiT builds a lightweight scene representation that changes over time.
-      You can think of it like a soft 4D “cloud” made of many tiny colored Gaussians:
-      X, Y, Z in space, plus t for time.
+      <b>Pseudo 4D Gaussian field</b>:  
+      Using those tracked 3D points (plus depth) they build a scene representation
+      made of little 3D Gaussian blobs that also evolve over time.
+      It’s “pseudo 4D” — space (3D) + time (1D).
     </li>
   </ul>
 
   <p>
-    Once we have this pseudo 4D Gaussian field, we can <b>re-render</b> the scene
-    from <i>any camera pose we choose</i> — even poses that never existed in the
-    original footage.  
-    Those new rendered views may be rough (holes, noise), but crucially
-    they are aligned to a physically meaningful camera path in 3D.
+    Once you have that, you can do something magical:
+    pick a brand new camera path (a sequence of 6-DoF poses:
+    x/y/z position + rotation), “render” what that imaginary camera would see
+    through the Gaussian field, and then ask a diffusion Transformer
+    to clean it up into a realistic-looking video.
   </p>
 
   <figure class="wide-figure">
     <img src="../assets/GS-DiT/figure1.png"
-         alt="Figure 1: overall pipeline. Input video -> dense 3D point tracking -> pseudo 4D Gaussian field -> Gaussian rendering from new views -> final diffused video." />
+         alt="Pipeline: from input video → dense 3D point tracking → pseudo 4D Gaussian field → new camera render → diffusion cleanup." />
     <figcaption>
-      Fig&nbsp;1 (Paper Fig.1). Pipeline overview.  
-      • Left: we start with a normal video and run dense 3D point tracking.<br/>
-      • Middle: we lift those tracked points + depth into a pseudo 4D Gaussian field
-        (a kind of world model that knows where stuff is in space and time).<br/>
-      • Right: we render that field from a <i>new</i> camera path, then ask a diffusion model
-        to clean it up into a realistic video.  
-      (Bian et al., 2025)
+      Fig&nbsp;1 (Paper Fig.1). Overall pipeline.  
+      Left: Input video.  
+      Middle: the system builds a pseudo 4D Gaussian field using dense 3D point tracking
+      and depth lifting. That’s basically the “world model.”  
+      Right: for any camera path we want, GS-DiT renders a rough novel view and then
+      uses diffusion to polish it into a realistic video. (Bian et al., 2025)
     </figcaption>
   </figure>
 
   <p>
-    This is the big shift: “camera control” stops being a vague text instruction
-    and becomes an <b>explicit camera trajectory in 3D</b>.  
-    GS-DiT can say, “Here’s the path the virtual camera will fly.
-    Here is what that path should see, according to our 4D Gaussian world.”
-    Then diffusion turns that rough prediction into photorealistic frames.
+    This makes camera control <i>explicit</i>.  
+    We’re not just telling the model “look cooler please.”  
+    We literally hand it a camera trajectory in 3D space and time.
   </p>
 
-  <h3>Why tracking quality matters</h3>
+  <h3>Tracking quality actually matters</h3>
 
   <p>
-    If the 3D tracking is wrong, everything collapses:
-    geometry tears, backgrounds float, objects smear.
-    So the paper benchmarks their tracking system against prior work,
-    both in 2D point tracking and in 3D point tracking.
-    Better tracking = more stable new views.
+    If the tracking is bad, everything collapses:
+    the pseudo 4D field is broken, and the re-rendered view has holes.
+    So the paper spends real effort on accurate dense tracking, and they compare
+    against prior trackers on standard datasets.
   </p>
 
   <figure class="wide-figure">
     <img src="../assets/GS-DiT/table1ang2.png"
-         alt="Table 1 and Table 2: TAPVid and TAPVid-3D tracking scores compared with previous methods." />
+         alt="Paper Tables 1 and 2: 2D and 3D point tracking benchmarks vs previous methods." />
     <figcaption>
       Tables&nbsp;1 &amp; 2 (Paper Tables 1 &amp; 2).  
-      GS-DiT’s dense point tracking matches or beats strong baselines on datasets like TAPVid,
-      TAPVid-3D, DriveTrack, Aria, etc.  
-      Metrics like AJ, OA, APD, 3D-AJ measure “are we following the same physical point
-      over time, and in 3D?”  
-      High-quality tracking is the foundation that lets the model move the camera later
-      without everything falling apart.  
-      (Bian et al., 2025)
+      Quantitative tracking benchmarks such as TAPVid, TAPVid-3D, DriveTrack, Aria, etc.
+      Metrics like AJ, OA, APD tell you how well points stay matched in 2D/3D.  
+      Strong tracking is the foundation: if we cannot follow points in 3D,
+      we cannot move the virtual camera believably. (Bian et al., 2025)
     </figcaption>
   </figure>
 
-  <!-- =============== SECTION 3 =============== -->
+  <!-- ======================== SECTION 3 ======================== -->
   <h2>3. How GS-DiT is trained</h2>
 
   <p>
-    Training-wise, GS-DiT doesn’t just guess out of nowhere.
-    It uses two aligned video streams during training:
+    Training GS-DiT is basically:  
+    “Given an original video AND a view from a new camera pose,
+    learn to generate the new view cleanly.”
   </p>
 
   <ul>
-    <li><b>Input video</b>: the original camera view you actually filmed.</li>
-    <li><b>Condition video</b>: a <i>novel</i> view rendered from the pseudo 4D Gaussian field,
-        following some new camera pose (for example, orbiting left or tilting down).</li>
+    <li><b>Input video</b>: the real clip you filmed.</li>
+    <li><b>Condition video</b>: a synthetic novel-view clip rendered
+        from the pseudo 4D Gaussian field using some chosen camera path.</li>
   </ul>
 
   <p>
-    Both videos get encoded by a 3D VAE encoder into latent tensors.
-    Those latents are concatenated and then fed into a Diffusion Transformer.
-    Parts of the encoder are frozen, parts are learnable — so the model learns:
-    “Given this target camera path, produce clean frames that look like the same scene
-    from that new path.”
+    Both are encoded by a 3D VAE into latent features.
+    These latents get concatenated and passed into a diffusion Transformer (DiT).
+    Some parts are frozen, others are trained.
   </p>
 
   <figure class="wide-figure">
     <img src="../assets/GS-DiT/figure3.png"
-         alt="Figure 3: training diagram. Input video latent + condition (rendered novel view) latent -> concatenated -> DiT denoiser." />
+         alt="Training: encode input video and condition video to latent features, concatenate, feed to DiT denoiser." />
     <figcaption>
       Fig&nbsp;2 (Paper Fig.2). Training / conditioning.  
-      Top row: the “condition video,” which comes from the new camera pose we want.<br/>
-      Bottom row: the original input video.<br/>
-      Both are turned into latent features by a 3D VAE encoder.
-      The Diffusion Transformer (DiT) then learns to denoise and produce the final output.
+      Top: the “condition video” (the desired new camera view).  
+      Bottom: the original input video.  
+      Both go through a 3D VAE encoder. Their latent features are combined and then
+      given to the DiT, which learns to denoise toward the correct target video.
+      In short, the model learns how a requested camera path should actually look.
       (Bian et al., 2025)
     </figcaption>
   </figure>
 
   <p>
-    Put simply: GS-DiT learns to <b>finish the shot</b>.  
-    The 4D Gaussian field gives a rough multi-view guess.
-    The diffusion model learns to polish that guess into a stable, pretty video that
-    actually follows the requested camera motion.
-  </p>
-
-  <h3>Appearance consistency over viewpoints and time</h3>
-
-  <p>
-    Another thing GS-DiT cares about: the same object should look like itself,
-    even if we rotate around it.  
-    For example, if you’re orbiting around an otter surfing on a board,
-    the otter shouldn’t suddenly change style frame-to-frame.
+    Another result of this setup is temporal + multi-view consistency:
+    the same object should keep the same identity, texture, and pose,
+    even as the camera swings around it. GS-DiT shows much stronger consistency
+    than older “just hallucinate extra frames” methods.
   </p>
 
   <figure class="wide-figure">
     <img src="../assets/GS-DiT/figure2.png"
-         alt="Figure 2: multi-view otter example. The subject keeps identity and style across camera motions." />
+         alt="Paper Fig.3: Otter demo with consistent look across different novel camera views and times." />
     <figcaption>
-      Fig&nbsp;3 (Paper Fig.3). Multi-view / multi-time consistency.  
-      The same subject (here an otter-like surfing character) is seen from several
-      new camera angles. The outfit, style, and pose stay consistent.  
-      This shows GS-DiT is not just hallucinating random new objects each time —
-      it’s keeping track of the same 3D creature over time.  
-      (Bian et al., 2025)
+      Fig&nbsp;3 (Paper Fig.3). An otter character surfing.  
+      GS-DiT generates new viewpoints over time while keeping appearance stable
+      (same life jacket, same style) and making sure the camera motion follows
+      the planned 3D path instead of wobbling randomly. (Bian et al., 2025)
     </figcaption>
   </figure>
 
-  <!-- =============== SECTION 4 =============== -->
+  <!-- ======================== SECTION 4 ======================== -->
   <h2>4. What can GS-DiT actually do?</h2>
 
   <p>
-    Let’s look at concrete abilities from the paper and project page.
-    Each demo starts with a boring real clip and ends with something that looks like
-    a planned film shot.
+    Now the fun part: we’ll look at real demos.
+    Each sub-section starts with a normal input clip,
+    then shows GS-DiT’s “what if the camera moved like THIS?” result.
   </p>
 
+  <!-- 4.1 Camera pose control -->
   <h3>4.1 Camera pose control</h3>
 
   <p>
-    We can literally say:
-    “Tilt the camera down,”
-    or “move the virtual camera to a new position,”
-    and GS-DiT will render what that <i>new</i> camera should see.
-    The scene is still the same bubble-on-branch, or the same desk clock —
-    just shot from a new angle that never existed in the original footage.
+    We can literally say: “Tilt the camera down,” or “move the virtual camera
+    to a new position,” and GS-DiT will render what that <em>new</em> camera
+    should see. The scene is still the same (bubble on a frozen branch,
+    desk clock on books) — just filmed from an angle that never existed
+    in the original footage.
   </p>
-
-  <figure class="wide-figure">
-    <img src="../assets/GS-DiT/ec1442e2-2365-434e-93c9-36ded83cf4dd.png"
-         alt="Camera pose control: bubble scene and clock scene, input vs output." />
-    <figcaption>
-      Camera Pose Control (project demo).  
-      Top pair: an ice bubble on a frozen branch.<br/>
-      Bottom pair: a desk clock.  
-      Left = original handheld shot.  
-      Right = GS-DiT’s “move/tilt the camera” version.  
-      The background and lighting still feel like the same place.
-    </figcaption>
-  </figure>
 
   <div class="video-demo-block">
     <div class="video-demo-title">Camera Pose Control – Bubble Scene</div>
@@ -455,9 +492,15 @@
       </div>
       <div class="video-col">
         <video controls src="../assets/GS-DiT/bubble-1b87f55dec310243.mp4"></video>
-        <div class="video-label">Output Video (new virtual camera path)</div>
+        <div class="video-label">Output Video (new camera pose)</div>
       </div>
     </div>
+    <p class="video-explainer">
+      Top example from the project page.  
+      Left: your raw clip of an ice bubble sitting on a branch.  
+      Right: GS-DiT’s “move / tilt the camera” version. The background
+      and lighting still feel like the same place.
+    </p>
   </div>
 
   <div class="video-demo-block">
@@ -472,33 +515,26 @@
         <div class="video-label">Output Video (tilt / rotate down)</div>
       </div>
     </div>
+    <p class="video-explainer">
+      Bottom example from the project page.  
+      The camera seems to “tilt down” toward the clock, but that motion never
+      happened in the real recording — GS-DiT synthesized it.
+    </p>
   </div>
 
+  <!-- 4.2 Dolly zoom -->
   <h3>4.2 Dolly zoom</h3>
 
   <p>
-    A <b>dolly zoom</b> is a famous film trick: the camera physically moves forward
-    while the lens zooms out, so the subject stays roughly the same size,
-    but the background stretches in a dramatic way (think Hitchcock / Vertigo shot).
-    That normally needs careful camera rigging.
+    A <b>dolly zoom</b> is a classic film trick: the camera moves forward
+    while zooming out, so the main subject stays almost the same size,
+    but the background stretches in a dramatic, vertigo-style way.
+    Usually you need careful camera rigging to pull that off.
   </p>
 
   <p>
     GS-DiT can fake that cinematic effect from a plain handheld-looking clip.
   </p>
-
-  <figure class="wide-figure">
-    <img src="../assets/GS-DiT/4f3b8d5e-d430-4502-b74e-167d146711d3.png"
-         alt="Dolly zoom with camel: left original, right dramatic dolly zoom look." />
-    <figcaption>
-      Dolly Zoom (project demo).  
-      Left row: original camel clip.  
-      Right row: GS-DiT output with a dolly zoom style move.
-      The camel stays calm and centered, while the background “pushes” and bends
-      in that classic thriller-movie way.  
-      (Bian et al., 2025)
-    </figcaption>
-  </figure>
 
   <div class="video-demo-block">
     <div class="video-demo-title">Dolly Zoom – Camel Scene</div>
@@ -512,26 +548,22 @@
         <div class="video-label">Output Video (dolly zoom style)</div>
       </div>
     </div>
+    <p class="video-explainer">
+      The camel stays calm and centered.  
+      The background “pushes” and bends — that famous thriller-movie look —
+      even though you never shot a true dolly rig. (Bian et al., 2025)
+    </p>
   </div>
 
+  <!-- 4.3 Object editing -->
   <h3>4.3 Object editing in video</h3>
 
   <p>
-    GS-DiT can also edit an object — for example, change the look of a spinning toy windmill —
-    while keeping the rest of the frame, depth, lighting, and “camera feel”
-    consistent with reality.
+    GS-DiT can also edit one object in the scene while keeping everything else
+    stable. For example, we can change how a toy windmill looks — its color,
+    its texture — but keep the flowers, the depth feeling, and the camera motion
+    consistent and believable.
   </p>
-
-  <figure class="wide-figure">
-    <img src="../assets/GS-DiT/13027d12-2e1e-44e3-ad1e-0a095e6153ab.png"
-         alt="Object editing: windmill blades before and after, with same background and camera." />
-    <figcaption>
-      Object Editing (project demo).  
-      We alter the color / texture / appearance of the little windmill blades.
-      The flower garden and bokeh background stay believable.
-      This is not frame-by-frame Photoshop; it’s a scene-level edit.
-    </figcaption>
-  </figure>
 
   <div class="video-demo-block">
     <div class="video-demo-title">Object Editing – Windmill Scene</div>
@@ -545,48 +577,22 @@
         <div class="video-label">Output Video (edited object)</div>
       </div>
     </div>
+    <p class="video-explainer">
+      Watch the spinning windmill blades.  
+      Their style changes in the output, but the background and camera movement
+      still feel natural. This is object-level control, not just a color filter.
+    </p>
   </div>
 
-  <p>
-    The paper groups shots like dolly zoom and object editing together
-    under “controllable video generation”: we’re not just passively watching;
-    we’re actively directing camera <em>and</em> content.
-  </p>
-
-  <figure class="wide-figure">
-    <img src="../assets/GS-DiT/figure5.png"
-         alt="Figure 5: Dolly Zoom and Object Editing examples from the paper." />
-    <figcaption>
-      Fig&nbsp;4 (Paper Fig.5).  
-      Left: Dolly Zoom effect.  
-      Right: Object Editing.  
-      These are creative tools for filmmakers: one changes how the scene is shot,
-      the other changes what’s actually in the shot.
-      (Bian et al., 2025)
-    </figcaption>
-  </figure>
-
+  <!-- 4.4 Multi-camera shooting -->
   <h3>4.4 Multi-camera shooting from one clip</h3>
 
   <p>
-    Maybe the most “movie studio” result:
-    you give GS-DiT one drone-ish coastal clip.
-    It then produces <b>several</b> different camera trajectories for that same moment,
-    as if you had four cameras in the air at the same time.
+    This is maybe the most “film studio” style result.
+    Give GS-DiT just one drone-like coastal clip.
+    It will produce several <em>different</em> camera trajectories of that same moment,
+    almost like you had four cameras flying in formation.
   </p>
-
-  <figure class="wide-figure">
-    <img src="../assets/GS-DiT/a2a82812-ac10-4a8f-9077-f1492b802f82.png"
-         alt="Multi-camera shooting: original coastal clip + 3 new trajectories." />
-    <figcaption>
-      Multi-camera Shooting (project demo).  
-      Left: the original coastline shot.  
-      Right: three distinct “virtual cameras”: rotate left, rotate right,
-      rotate down-left.  
-      You can cut between these angles in editing even though they were never filmed.
-      (Bian et al., 2025)
-    </figcaption>
-  </figure>
 
   <div class="video-demo-block">
     <div class="video-demo-title">Multi-camera Shooting – Coastal Scene</div>
@@ -597,152 +603,142 @@
       </div>
       <div class="video-col">
         <video controls src="../assets/GS-DiT/big_sur-rotate_left_camera_poses_30_20.mp4"></video>
-        <div class="video-label">Output Trajectory 1</div>
+        <div class="video-label">Output Trajectory 1 (rotate left)</div>
       </div>
       <div class="video-col">
         <video controls src="../assets/GS-DiT/big_sur-rotate_right_camera_poses_30_20.mp4"></video>
-        <div class="video-label">Output Trajectory 2</div>
+        <div class="video-label">Output Trajectory 2 (rotate right)</div>
       </div>
       <div class="video-col">
         <video controls src="../assets/GS-DiT/big_sur-rotate_downleft_camera_poses_30_20.mp4"></video>
-        <div class="video-label">Output Trajectory 3</div>
+        <div class="video-label">Output Trajectory 3 (rotate down-left)</div>
       </div>
     </div>
+    <p class="video-explainer">
+      One real clip in, many “virtual cameraman” views out.
+      You can cut between these angles in editing, even though only one camera
+      ever existed in the real world.
+    </p>
   </div>
 
-  <!-- =============== SECTION 5 =============== -->
-  <h2>5. How does GS-DiT compare to previous methods?</h2>
+  <!-- ======================== SECTION 5 ======================== -->
+  <h2>5. How does it compare to previous methods?</h2>
 
   <p>
-    The paper compares GS-DiT to strong baselines like GCD and MonST3R.
-    Older methods often “break” when you ask for a new camera motion:
-    backgrounds tear open into black voids, objects smear or get chopped off,
-    geometry pops in and out.
+    The paper compares GS-DiT with strong baselines like GCD and MonST3R.
+    Older systems often break the scene when you try to move the camera:
+    you get black holes where the model has no geometry,
+    warped backgrounds, or subjects that fall apart.
   </p>
 
   <p>
-    GS-DiT stays more stable.
-    It keeps the subject intact (a swan, a cow, a person, even that surfing otter),
-    and it fills in plausible surroundings instead of giant holes.
+    GS-DiT keeps the subject and environment more complete,
+    and the invented new views look more like footage from a real moving camera.
   </p>
 
   <figure class="wide-figure">
     <img src="../assets/GS-DiT/figure4.png"
-         alt="Figure 4: qualitative comparison across multiple scenes (swan, bike rider, car, cow, portrait, otter). Columns: Input, Camera Poses, Ours, GCD, MonST3R." />
+         alt="Paper Fig.4: Qualitative comparison across scenes (swan, bike, car, cow, old man, otter)." />
     <figcaption>
-      Fig&nbsp;5 (Paper Fig.4). Qualitative comparison.  
-      Columns (left→right): the original input video, the recovered camera poses,
-      GS-DiT’s output, and two baselines (GCD, MonST3R).  
-      Rows: swan on water, bike rider, driving car, cow in a field,
-      portrait of an old man, the surfing otter.  
-      GS-DiT produces cleaner, more complete novel views with fewer black gaps.
-      (Bian et al., 2025)
+      Fig&nbsp;4 (Paper Fig.4). Qualitative comparison.  
+      Columns: original input video, recovered camera poses, GS-DiT output,
+      plus baseline methods (GCD, MonST3R).  
+      Rows: swan on water, biker by graffiti, street car, cow in a field,
+      an old man, and the surfing otter.  
+      GS-DiT fills in the world with fewer holes and less distortion. (Bian et al., 2025)
     </figcaption>
   </figure>
 
   <p>
-    They also report quantitative metrics for multi-camera / multi-trajectory generation:
-    PSNR and SSIM should go <b>up</b> (higher = closer to ground truth),
-    LPIPS should go <b>down</b> (lower = perceptually closer).
-    GS-DiT wins on these across datasets like DAVIS, Sora, and Pixabay.
+    They also report numbers for multi-camera / multi-trajectory generation quality:
+    higher PSNR and SSIM (closer to “ground truth”), and lower LPIPS (looks more similar
+    to the real scene) than prior work.
   </p>
 
   <figure class="wide-figure">
     <img src="../assets/GS-DiT/table3.png"
-         alt="Table 3: PSNR, SSIM, LPIPS comparisons for multi-shooting video generation quality." />
+         alt="Paper Table 3: PSNR/SSIM/LPIPS comparison for multi-shooting video generation." />
     <figcaption>
       Table&nbsp;3 (Paper Table 3).  
-      GS-DiT beats GCD and MonST3R in PSNR↑ / SSIM↑ / LPIPS↓ for generated novel views.
-      Translation: the new camera shots are not only cooler — they’re measurably closer
-      to what a real camera at that angle should have seen.  
+      GS-DiT beats previous systems like MonST3R and GCD on PSNR↑, SSIM↑, LPIPS↓
+      across datasets such as DAVIS, Sora, Pixabay.  
+      Translation: sharper, more faithful, and more stable under new camera moves.
       (Bian et al., 2025)
     </figcaption>
   </figure>
 
-  <!-- =============== SECTION 6 =============== -->
-  <h2>6. The pipeline in plain steps</h2>
+  <!-- ======================== SECTION 6 ======================== -->
+  <h2>6. Mini technical recap</h2>
 
-  <p>Here is GS-DiT as a recipe:</p>
+  <p>
+    Let’s compress the pipeline into a short recipe:
+  </p>
 
   <ol style="padding-left:1.25rem;">
     <li>
-      <b>Start with a normal video.</b><br/>
-      Track dense points in 3D across time. Estimate depth.  
-      Now the model has a rough idea of scene geometry and motion.
+      <b>Start with your normal phone video.</b><br/>
+      Track dense 3D points through time; estimate depth.
     </li>
-
     <li>
       <b>Build a pseudo 4D Gaussian field.</b><br/>
-      This is the “world model”: a time-varying set of colored 3D Gaussians
-      that says “what is where” at each frame.
+      This is the scene as 3D blobs that also evolve over time.
     </li>
-
     <li>
-      <b>Pick any new camera path.</b><br/>
-      Orbit around the subject, tilt down, do a dolly zoom, etc.
-      This path is full 6-DoF (3D location + 3D rotation over time),
-      just like a real camera rig.
+      <b>Pick any new camera path (6-DoF).</b><br/>
+      Orbit, tilt, dolly zoom, rotate around subject, etc.
     </li>
-
     <li>
-      <b>Render that path from the 4D field.</b><br/>
-      The render may look incomplete (holes, noise),
-      but it’s physically aligned to your requested camera motion.
+      <b>Render what that imaginary camera would see</b> from the Gaussian field.<br/>
+      It’s rough, with holes, but it’s geometrically aligned with that path.
     </li>
-
     <li>
-      <b>Refine with a Diffusion Transformer.</b><br/>
-      A DiT denoiser turns that rough render into a clean, stable,
-      photorealistic video clip.
+      <b>Feed that rough render into a Diffusion Transformer (DiT).</b><br/>
+      The DiT denoises and fills in missing detail, producing a clean, realistic video.
     </li>
-
     <li>
       <b>Repeat for more paths or edits.</b><br/>
-      You can now generate multiple “virtual takes” of the same moment,
-      or edit specific objects, without reshooting anything.
+      Now you have multiple “virtual takes” of the same moment.
     </li>
   </ol>
 
   <p>
-    So GS-DiT is basically an automatic mini film crew:
-    it understands your scene in 3D + time,
-    it lets you direct the camera afterward,
-    and it outputs shots that look like you actually filmed them.
+    In one line: GS-DiT glues together 3D point tracking, a pseudo 4D Gaussian “world,”
+    and a diffusion Transformer, so you can <b>direct the camera after you’re done filming</b>.
   </p>
 
-  <!-- =============== SECTION 7 =============== -->
-  <h2>7. Why this matters (my take)</h2>
+  <!-- ======================== SECTION 7 ======================== -->
+  <h2>7. Why this work matters</h2>
 
   <p>
-    This work is one step toward “text-to-world,” but grounded in real footage.
-    We’re moving from “please generate a pretty clip” to
-    “please give me this exact shot.”
+    A big shift in generative video is happening:
+    we’re moving from “make a cool clip” to “give me the exact shot I want.”
+    GS-DiT is a concrete step in that direction.
   </p>
 
   <p>
-    For creators and video editors:
-    you can shoot something fast — even handheld —
-    and later ask for pro-looking moves (orbit, dolly zoom, crane),
-    or clean object edits, without renting gear or doing reshoots.
+    Instead of thinking “this 10-second phone video is final,”
+    GS-DiT treats it as raw material.  
+    It reconstructs enough 3D structure that you can explore it,
+    edit it, and reshoot it in post — with camera paths and effects
+    that feel like real cinematography.
   </p>
 
   <p>
-    For AR / VR / robotics:
-    being able to reconstruct a controllable 3D+time scene from a short casual clip
-    is huge. It means you can drop a virtual camera anywhere,
-    not just replay the original path.
+    This screams applications in:
   </p>
+
+  <ul>
+    <li><b>Filmmaking / previsualization:</b> plan fancy shots without renting gear.</li>
+    <li><b>Object editing:</b> fix or restyle something in the scene without reshooting.</li>
+    <li><b>AR / VR / robotics:</b> turn a casual scan into a little navigable world.</li>
+  </ul>
 
   <p>
-    There are still limits:  
-    if the video never shows the back of an object, GS-DiT has to hallucinate it.
-    And diffusion is still expensive to run.  
-    But the direction is very clear:
-    we’re leaving the world of “I filmed this clip.”
-    We’re entering “I filmed some raw material, and now I can direct it however I want.”
+    Of course, it’s not perfect. If you never filmed the back side of an object,
+    GS-DiT still has to hallucinate it. And diffusion models are heavy to run.
+    But the direction is clear: <b>shoot once, direct later</b>.
   </p>
 
-  <!-- =============== REFERENCES =============== -->
   <footer>
     <h3>References / Figure credits</h3>
     <p>
@@ -752,19 +748,18 @@
     </p>
     <p>
       Peebles, W., and Xie, S.
-      “<i>Scalable Diffusion Models with Transformers.</i>”
+      “<i>DiT: Diffusion Models with Transformers.</i>”
       arXiv:2212.09748, 2022.
-      (This is the Diffusion Transformer / DiT background model.)
     </p>
     <p>
-      All figures (Fig.1–5), tables (Tables 1–3), and demo videos
-      are adapted from Bian et al. (2025) and the official GS-DiT project page.
+      All figures (Fig.1–4) and tables (Tables 1–3) here are adapted from
+      Bian et al. (2025) and the official GS-DiT project demos.
       They illustrate: dense 3D point tracking and pseudo 4D Gaussian fields (Fig.1),
-      training with input+condition views and DiT denoising (Fig.2),
-      appearance consistency across viewpoints (Fig.3),
-      qualitative comparison vs. GCD / MonST3R (Fig.4),
-      controllable shots such as dolly zoom, camera pose control, object editing,
-      and multi-camera shooting (Fig.5), plus tracking / quality metrics (Tables 1–3).
+      the training / conditioning design (Fig.2),
+      appearance + motion consistency across views (Fig.3),
+      qualitative comparisons to baselines (Fig.4),
+      plus tracking metrics (Tables 1–2) and generation quality metrics (Table 3).
+      Demo videos (bubble, clock, camel, windmill, coastal, corgi) come from the GS-DiT project page.
     </p>
   </footer>
 
